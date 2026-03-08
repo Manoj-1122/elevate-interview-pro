@@ -25,19 +25,9 @@ interface Interview {
 export default function DashboardPage() {
   const [interviews, setInterviews] = useState<Interview[]>([]);
   const [loading, setLoading] = useState(true);
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
-  const [displayName, setDisplayName] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        const { data: prof } = await supabase.from("profiles").select("avatar_url, display_name").eq("id", user.id).maybeSingle();
-        if (prof) {
-          setAvatarUrl((prof as any).avatar_url);
-          setDisplayName((prof as any).display_name || user.email?.split("@")[0] || "");
-        }
-      }
       const { data } = await supabase
         .from("interviews")
         .select("*")
