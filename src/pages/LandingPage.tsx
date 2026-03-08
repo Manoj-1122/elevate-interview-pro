@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import aiBg from "@/assets/ai-interview-bg.jpg";
 import { Button } from "@/components/ui/button";
-import { Brain, Mic, BarChart3, MessageSquare, Sparkles, Target, TrendingUp, Shield, ArrowRight, Star, CheckCircle2 } from "lucide-react";
+import { Brain, Mic, BarChart3, MessageSquare, Sparkles, Target, TrendingUp, ArrowRight, CheckCircle2 } from "lucide-react";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -28,11 +28,6 @@ const steps = [
   { num: "04", title: "Get Your Report", desc: "Receive a detailed feedback report with actionable improvements" },
 ];
 
-const testimonials = [
-  { name: "Sarah Chen", role: "Software Engineer at Google", avatar: "SC", rating: 5, text: "This platform helped me prepare for my FAANG interviews. The AI feedback was incredibly accurate and actionable." },
-  { name: "Marcus Johnson", role: "Data Scientist at Meta", avatar: "MJ", rating: 5, text: "The speech analysis feature is a game-changer. It helped me improve my communication skills significantly." },
-  { name: "Priya Sharma", role: "Product Manager at Amazon", avatar: "PS", rating: 5, text: "I went from nervous to confident in just two weeks of practice. The detailed analytics really showed my progress." },
-];
 
 export default function LandingPage() {
   return (
@@ -49,7 +44,7 @@ export default function LandingPage() {
           <div className="hidden md:flex items-center gap-8">
             <a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Features</a>
             <a href="#how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition-colors">How it Works</a>
-            <a href="#testimonials" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Testimonials</a>
+            
           </div>
           <div className="flex items-center gap-3">
             <Link to="/login">
@@ -198,38 +193,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section id="testimonials" className="py-24 px-4">
-        <div className="container mx-auto">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={0} className="text-center mb-16">
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">Loved by Candidates</h2>
-            <p className="text-muted-foreground text-lg max-w-xl mx-auto">See how InterviewAI has helped thousands land their dream jobs.</p>
-          </motion.div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {testimonials.map((t, i) => (
-              <motion.div
-                key={t.name}
-                initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={i}
-                className="glass-card rounded-2xl p-6"
-              >
-                <div className="flex gap-1 mb-4">
-                  {Array.from({ length: t.rating }).map((_, j) => (
-                    <Star key={j} className="h-4 w-4 fill-primary text-primary" />
-                  ))}
-                </div>
-                <p className="text-foreground text-sm leading-relaxed mb-6">"{t.text}"</p>
-                <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-full gradient-bg flex items-center justify-center text-primary-foreground text-sm font-bold">{t.avatar}</div>
-                  <div>
-                    <p className="text-sm font-semibold text-foreground">{t.name}</p>
-                    <p className="text-xs text-muted-foreground">{t.role}</p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* CTA */}
       <section className="py-24 px-4">
