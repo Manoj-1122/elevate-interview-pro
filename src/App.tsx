@@ -36,6 +36,7 @@ const App = () => (
             <Route path="/setup" element={<SetupPage />} />
             <Route path="/interview" element={<InterviewPage />} />
             <Route path="/results" element={<ResultsPage />} />
+            <Route path="/interview/:id" element={<InterviewDetailPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

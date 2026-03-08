@@ -169,6 +169,12 @@ export default function DashboardPage() {
                       <span className={`text-sm font-semibold ${interview.overall_score >= 80 ? "text-accent" : "text-primary"}`}>
                         {interview.overall_score}/100
                       </span>
+                      <Link to={`/interview/${interview.id}`}>
+                        <Button variant="ghost" size="sm"><Eye className="h-4 w-4" /></Button>
+                      </Link>
+                      <Button variant="ghost" size="sm" onClick={() => generateInterviewPDF(interview as any)}>
+                        <Download className="h-4 w-4" />
+                      </Button>
                     </div>
                   </div>
                 ))}
