@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Brain, Mic, MicOff, Send, Clock, ChevronRight, Loader2 } from "lucide-react";
@@ -105,11 +105,13 @@ type Message = { role: "ai" | "user"; content: string };
 
 export default function InterviewPage() {
   const [searchParams] = useSearchParams();
+  const location = useLocation();
   const role = searchParams.get("role") || "Software Developer";
   const difficulty = searchParams.get("difficulty") || "Intermediate";
   const type = searchParams.get("type") || "technical";
 
-  const questions = questionsByRole[role]?.[type] || questionsByRole["Software Developer"].technical;
+  const customQuestions = (location.state as any)?.customQuestions;
+  const questions = customQuestions || questionsByRole[role]?.[type] || questionsByRole["Software Developer"].technical;
 
   const [messages, setMessages] = useState<Message[]>([
     { role: "ai", content: questions[0] },
