@@ -124,11 +124,76 @@ export default function LearningDetailPage() {
           </div>
         </motion.div>
 
+        {/* Course Modules */}
+        {content && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="mb-10"
+          >
+            <h2 className="font-display text-xl font-bold text-foreground mb-6">Course Curriculum</h2>
+            <div className="space-y-4">
+              {content.modules.map((mod, mi) => {
+                const modLessons = mod.topics.flatMap((t) => t.lessons);
+                const modCompleted = modLessons.filter((l) => {
+                  const topic = mod.topics.find((t) => t.lessons.includes(l));
+                  return topic && completedTopics.has(`${topic.id}/${l.id}`);
+                }).length;
+                return (
+                  <div key={mod.id} className="glass-card rounded-xl overflow-hidden">
+                    <div className="p-5 flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center text-sm font-bold text-primary">
+                          {mi + 1}
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-sm text-foreground">{mod.title}</h3>
+                          <p className="text-xs text-muted-foreground">{mod.topics.length} topics · {modLessons.length} lessons</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className="text-xs text-muted-foreground">{modCompleted}/{modLessons.length}</span>
+                        <Progress value={modLessons.length > 0 ? (modCompleted / modLessons.length) * 100 : 0} className="w-20 h-2" />
+                      </div>
+                    </div>
+                    <div className="border-t px-5 py-3 space-y-1">
+                      {mod.topics.map((topic) => (
+                        <div key={topic.id}>
+                          {topic.lessons.map((lesson) => {
+                            const isDone = completedTopics.has(`${topic.id}/${lesson.id}`);
+                            return (
+                              <Link
+                                key={lesson.id}
+                                to={`/learning/${id}/content?lesson=${lesson.id}`}
+                                className="flex items-center gap-3 py-2 px-2 rounded-md hover:bg-muted transition-colors"
+                              >
+                                {isDone ? (
+                                  <Check className="h-4 w-4 text-accent shrink-0" />
+                                ) : (
+                                  <BookOpen className="h-4 w-4 text-muted-foreground shrink-0" />
+                                )}
+                                <span className={`text-xs ${isDone ? "text-muted-foreground line-through" : "text-foreground"}`}>
+                                  {lesson.title}
+                                </span>
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </motion.div>
+        )}
+
         {/* Skills Covered */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25 }}
+          transition={{ delay: 0.3 }}
           className="rounded-2xl p-8 md:p-12 mb-10"
           style={{ background: "var(--gradient-primary)" }}
         >

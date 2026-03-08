@@ -42,6 +42,7 @@ const App = () => (
             <Route path="/interview/:id" element={<InterviewDetailPage />} />
             <Route path="/learning" element={<LearningPage />} />
             <Route path="/learning/:id" element={<LearningDetailPage />} />
+            <Route path="/learning/:id/content" element={<LearningContentPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
