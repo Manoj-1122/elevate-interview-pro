@@ -1,30 +1,50 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Brain, ArrowRight, Download, RotateCcw, TrendingUp, MessageSquare, Lightbulb, Shield } from "lucide-react";
+import { Brain, ArrowRight, Download, RotateCcw, TrendingUp, MessageSquare, Lightbulb, Shield, AlertTriangle, Star } from "lucide-react";
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer } from "recharts";
 
-const overallScore = 82;
-
-const skills = [
-  { name: "Technical Knowledge", score: 88, color: "bg-primary" },
-  { name: "Communication", score: 72, color: "bg-secondary" },
-  { name: "Problem Solving", score: 85, color: "bg-accent" },
-  { name: "Confidence", score: 78, color: "bg-primary" },
-  { name: "Grammar & Vocabulary", score: 90, color: "bg-secondary" },
-  { name: "Response Time", score: 75, color: "bg-accent" },
+const fallbackSkills = [
+  { name: "Content Relevance", score: 75 },
+  { name: "Technical Accuracy", score: 80 },
+  { name: "Communication Skills", score: 70 },
+  { name: "Confidence & Fluency", score: 72 },
+  { name: "Grammar & Vocabulary", score: 85 },
+  { name: "Response Time", score: 68 },
 ];
 
-const radarData = skills.map((s) => ({ subject: s.name.split(" ")[0], score: s.score, fullMark: 100 }));
-
-const feedback = [
-  { icon: TrendingUp, title: "Strong Technical Foundation", text: "Your technical knowledge is impressive. You demonstrated clear understanding of system design concepts." },
-  { icon: MessageSquare, title: "Improve Communication Clarity", text: "Try to structure your answers using the STAR method for behavioral questions. Be more concise in technical explanations." },
-  { icon: Lightbulb, title: "Problem Solving Approach", text: "Great analytical thinking! Consider walking through your thought process more explicitly during interviews." },
-  { icon: Shield, title: "Build Confidence", text: "Reduce filler words and maintain a steady pace. Practice speaking about your projects with more conviction." },
+const fallbackFeedback = [
+  { title: "Strong Technical Foundation", text: "You demonstrated solid understanding of core concepts.", type: "strength" as const },
+  { title: "Improve Communication Clarity", text: "Try structuring answers using the STAR method for better clarity.", type: "improvement" as const },
+  { title: "Good Problem Solving", text: "Your analytical approach is methodical and effective.", type: "strength" as const },
+  { title: "Build Confidence", text: "Practice speaking about your projects with more conviction.", type: "improvement" as const },
 ];
+
+const feedbackIcons: Record<string, typeof TrendingUp> = {
+  strength: Star,
+  improvement: Lightbulb,
+};
+
+const skillColors = ["bg-primary", "bg-secondary", "bg-accent", "bg-primary", "bg-secondary", "bg-accent"];
 
 export default function ResultsPage() {
+  const location = useLocation();
+  const evaluation = location.state?.evaluation;
+
+  const overallScore = evaluation?.overallScore ?? 75;
+  const performanceLabel = evaluation?.performanceLabel ?? "Good Effort";
+  const skills = (evaluation?.skills ?? fallbackSkills).map((s: { name: string; score: number }, i: number) => ({
+    ...s,
+    color: skillColors[i % skillColors.length],
+  }));
+  const feedback = evaluation?.feedback ?? fallbackFeedback;
+
+  const radarData = skills.map((s: { name: string; score: number }) => ({
+    subject: s.name.split(" ")[0],
+    score: s.score,
+    fullMark: 100,
+  }));
+
   return (
     <div className="min-h-screen bg-background">
       <nav className="border-b">
@@ -36,8 +56,14 @@ export default function ResultsPage() {
             <span className="font-display font-bold text-lg text-foreground">InterviewAI</span>
           </Link>
           <div className="flex gap-3">
-            <Link to="/setup"><Button variant="heroOutline" size="sm"><RotateCcw className="h-4 w-4 mr-1" /> Retake</Button></Link>
-            <Button variant="ghost" size="sm"><Download className="h-4 w-4 mr-1" /> Export</Button>
+            <Link to="/setup">
+              <Button variant="heroOutline" size="sm">
+                <RotateCcw className="h-4 w-4 mr-1" /> Retake
+              </Button>
+            </Link>
+            <Button variant="ghost" size="sm">
+              <Download className="h-4 w-4 mr-1" /> Export
+            </Button>
           </div>
         </div>
       </nav>
@@ -62,7 +88,12 @@ export default function ResultsPage() {
               <span className="text-muted-foreground text-sm">/100</span>
             </div>
           </div>
-          <p className="text-accent font-semibold mt-4">Great Performance!</p>
+          <p className="text-accent font-semibold mt-4">{performanceLabel}</p>
+          {!evaluation && (
+            <p className="text-xs text-muted-foreground mt-2 flex items-center justify-center gap-1">
+              <AlertTriangle className="h-3 w-3" /> Sample results shown (AI evaluation unavailable)
+            </p>
+          )}
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-8 mb-12">
@@ -83,7 +114,7 @@ export default function ResultsPage() {
           <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }} className="glass-card rounded-2xl p-6">
             <h3 className="font-display font-semibold text-foreground mb-6">Detailed Scores</h3>
             <div className="space-y-5">
-              {skills.map((s, i) => (
+              {skills.map((s: { name: string; score: number; color: string }, i: number) => (
                 <div key={s.name}>
                   <div className="flex justify-between text-sm mb-1.5">
                     <span className="text-foreground font-medium">{s.name}</span>
@@ -107,29 +138,40 @@ export default function ResultsPage() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
           <h3 className="font-display text-xl font-semibold text-foreground mb-6">AI Feedback & Suggestions</h3>
           <div className="grid md:grid-cols-2 gap-4 mb-12">
-            {feedback.map((f, i) => (
-              <motion.div
-                key={f.title}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 + i * 0.1 }}
-                className="glass-card rounded-2xl p-5"
-              >
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center">
-                    <f.icon className="h-4 w-4 text-primary" />
+            {feedback.map((f: { title: string; text: string; type: string }, i: number) => {
+              const Icon = feedbackIcons[f.type] || Lightbulb;
+              return (
+                <motion.div
+                  key={f.title}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 + i * 0.1 }}
+                  className="glass-card rounded-2xl p-5"
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className={`h-9 w-9 rounded-lg flex items-center justify-center ${
+                      f.type === "strength" ? "bg-accent/10" : "bg-primary/10"
+                    }`}>
+                      <Icon className={`h-4 w-4 ${f.type === "strength" ? "text-accent" : "text-primary"}`} />
+                    </div>
+                    <h4 className="font-semibold text-sm text-foreground">{f.title}</h4>
                   </div>
-                  <h4 className="font-semibold text-sm text-foreground">{f.title}</h4>
-                </div>
-                <p className="text-muted-foreground text-sm leading-relaxed">{f.text}</p>
-              </motion.div>
-            ))}
+                  <p className="text-muted-foreground text-sm leading-relaxed">{f.text}</p>
+                </motion.div>
+              );
+            })}
           </div>
         </motion.div>
 
         <div className="flex justify-center gap-4">
-          <Link to="/dashboard"><Button variant="hero" size="lg">View Dashboard <ArrowRight className="ml-2 h-5 w-5" /></Button></Link>
-          <Link to="/setup"><Button variant="heroOutline" size="lg">New Interview</Button></Link>
+          <Link to="/dashboard">
+            <Button variant="hero" size="lg">
+              View Dashboard <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </Link>
+          <Link to="/setup">
+            <Button variant="heroOutline" size="lg">New Interview</Button>
+          </Link>
         </div>
       </div>
     </div>
