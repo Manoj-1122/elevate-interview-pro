@@ -2,28 +2,40 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Brain, Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
+import { Brain, Mail, Lock, Eye, EyeOff, ArrowRight, User } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { toast } from "sonner";
 import loginBg from "@/assets/login-bg.jpg";
 
-export default function LoginPage() {
+export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleEmailSignIn = async (e: React.FormEvent) => {
+  const handleEmailSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (password.length < 6) {
+      toast.error("Password must be at least 6 characters");
+      return;
+    }
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: window.location.origin,
+        data: { full_name: fullName },
+      },
+    });
     setLoading(false);
     if (error) {
       toast.error(error.message);
     } else {
-      navigate("/dashboard");
+      toast.success("Check your email to confirm your account!");
     }
   };
 
@@ -51,12 +63,11 @@ export default function LoginPage() {
             </div>
             <span className="font-display font-bold text-xl text-white">InterviewAI</span>
           </Link>
-          <h1 className="font-display text-2xl font-bold text-white">Welcome back</h1>
-          <p className="text-white/60 text-sm mt-1">Sign in to continue your preparation</p>
+          <h1 className="font-display text-2xl font-bold text-white">Create your account</h1>
+          <p className="text-white/60 text-sm mt-1">Start your interview preparation journey</p>
         </div>
 
         <div className="rounded-2xl p-8 bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl">
-          {/* Google Sign-In */}
           <button
             onClick={handleGoogleSignIn}
             className="w-full h-11 flex items-center justify-center gap-3 rounded-xl bg-white text-gray-700 font-medium text-sm hover:bg-gray-50 transition-colors mb-6"
@@ -70,27 +81,33 @@ export default function LoginPage() {
             Continue with Google
           </button>
 
-          {/* Divider */}
           <div className="flex items-center gap-3 mb-6">
             <div className="flex-1 h-px bg-white/10" />
-            <span className="text-xs text-white/40">or sign in with email</span>
+            <span className="text-xs text-white/40">or sign up with email</span>
             <div className="flex-1 h-px bg-white/10" />
           </div>
 
-          <form onSubmit={handleEmailSignIn}>
+          <form onSubmit={handleEmailSignUp}>
             <div className="space-y-4 mb-6">
+              <div>
+                <label className="text-sm font-medium text-white/90 mb-1.5 block">Full Name</label>
+                <div className="relative">
+                  <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/40" />
+                  <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="John Doe" required className="w-full h-11 pl-10 pr-4 rounded-xl bg-white/10 border border-white/10 text-sm text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary" />
+                </div>
+              </div>
               <div>
                 <label className="text-sm font-medium text-white/90 mb-1.5 block">Email</label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/40" />
-                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" className="w-full h-11 pl-10 pr-4 rounded-xl bg-white/10 border border-white/10 text-sm text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary" />
+                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" required className="w-full h-11 pl-10 pr-4 rounded-xl bg-white/10 border border-white/10 text-sm text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary" />
                 </div>
               </div>
               <div>
                 <label className="text-sm font-medium text-white/90 mb-1.5 block">Password</label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/40" />
-                  <input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" className="w-full h-11 pl-10 pr-10 rounded-xl bg-white/10 border border-white/10 text-sm text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary" />
+                  <input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Min. 6 characters" required className="w-full h-11 pl-10 pr-10 rounded-xl bg-white/10 border border-white/10 text-sm text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary" />
                   <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white">
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
@@ -98,17 +115,13 @@ export default function LoginPage() {
               </div>
             </div>
 
-            <div className="flex justify-end mb-6">
-              <Link to="/forgot-password" className="text-xs text-primary hover:underline">Forgot password?</Link>
-            </div>
-
             <Button type="submit" variant="hero" size="lg" className="w-full py-5" disabled={loading}>
-              {loading ? "Signing in..." : "Sign In"} {!loading && <ArrowRight className="ml-2 h-4 w-4" />}
+              {loading ? "Creating account..." : "Create Account"} {!loading && <ArrowRight className="ml-2 h-4 w-4" />}
             </Button>
           </form>
 
           <div className="mt-6 text-center text-sm text-white/50">
-            Don't have an account? <Link to="/signup" className="text-primary font-medium hover:underline">Sign up</Link>
+            Already have an account? <Link to="/login" className="text-primary font-medium hover:underline">Sign in</Link>
           </div>
         </div>
       </motion.div>
