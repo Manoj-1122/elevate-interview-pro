@@ -55,6 +55,15 @@ export default function ProfilePage() {
   const [newPassword, setNewPassword] = useState("");
   const [changingPassword, setChangingPassword] = useState(false);
 
+  // Notification preferences
+  const [notifications, setNotifications] = useState({
+    notify_new_content: true,
+    notify_interview_reminders: true,
+    notify_progress_updates: true,
+    notify_tips_resources: false,
+  });
+  const [savingNotifications, setSavingNotifications] = useState(false);
+
   useEffect(() => {
     loadProfile();
   }, []);
