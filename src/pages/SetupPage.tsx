@@ -201,7 +201,7 @@ export default function SetupPage() {
               <input
                 ref={fileInputRef}
                 type="file"
-                accept=".pdf,.txt"
+                accept=".pdf,.txt,.docx,.doc"
                 onChange={handleFileChange}
                 className="hidden"
               />
