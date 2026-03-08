@@ -1,8 +1,12 @@
 import { useParams, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Brain, Check, ArrowLeft } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
+import { Brain, Check, ArrowLeft, BookOpen, Play } from "lucide-react";
 import { learningPaths } from "./LearningPage";
+import { getPathContent } from "@/data/learningContent";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function LearningDetailPage() {
   const { id } = useParams<{ id: string }>();
