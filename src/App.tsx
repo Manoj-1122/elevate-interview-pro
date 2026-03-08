@@ -8,6 +8,9 @@ import LandingPage from "./pages/LandingPage";
 import NotFound from "./pages/NotFound";
 
 const LoginPage = lazy(() => import("./pages/LoginPage"));
+const SignupPage = lazy(() => import("./pages/SignupPage"));
+const ForgotPasswordPage = lazy(() => import("./pages/ForgotPasswordPage"));
+const ResetPasswordPage = lazy(() => import("./pages/ResetPasswordPage"));
 const DashboardPage = lazy(() => import("./pages/DashboardPage"));
 const SetupPage = lazy(() => import("./pages/SetupPage"));
 const InterviewPage = lazy(() => import("./pages/InterviewPage"));
