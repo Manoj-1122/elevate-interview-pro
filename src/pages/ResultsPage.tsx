@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Brain, ArrowRight, Download, RotateCcw, TrendingUp, MessageSquare, Lightbulb, Shield, AlertTriangle, Star } from "lucide-react";
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer } from "recharts";
 import jsPDF from "jspdf";
-import "jspdf-autotable";
+import autoTable from "jspdf-autotable";
 
 const fallbackSkills = [
   { name: "Content Relevance", score: 75 },
@@ -66,7 +66,7 @@ export default function ResultsPage() {
     doc.setFont("helvetica", "bold");
     doc.text("Skill Breakdown", 14, 50);
 
-    (doc as any).autoTable({
+    autoTable(doc, {
       startY: 55,
       head: [["Skill", "Score"]],
       body: skills.map((s: { name: string; score: number }) => [s.name, `${s.score}%`]),
@@ -80,7 +80,7 @@ export default function ResultsPage() {
     doc.setFont("helvetica", "bold");
     doc.text("AI Feedback & Suggestions", 14, feedbackY);
 
-    (doc as any).autoTable({
+    autoTable(doc, {
       startY: feedbackY + 5,
       head: [["Type", "Title", "Details"]],
       body: feedback.map((f: { title: string; text: string; type: string }) => [
