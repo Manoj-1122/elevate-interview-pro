@@ -9,8 +9,9 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-import { Brain, User, LogOut, Menu, X } from "lucide-react";
+import { User, LogOut, Menu, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import prepzoLogo from "@/assets/prepzo-logo.png";
 
 const navLinks = [
   { to: "/", label: "Home" },
