@@ -14,6 +14,7 @@ import { Brain, ArrowLeft, ArrowRight, ChevronLeft, BookOpen, Check, Menu, X } f
 import { learningPaths } from "./LearningPage";
 import { getPathContent, type Lesson } from "@/data/learningContent";
 import { supabase } from "@/integrations/supabase/client";
+import LessonQuiz from "@/components/LessonQuiz";
 
 export default function LearningContentPage() {
   const { id } = useParams<{ id: string }>();
@@ -239,6 +240,13 @@ export default function LearningContentPage() {
                       </li>
                     ))}
                   </ul>
+                </div>
+              )}
+
+              {/* Quiz Section */}
+              {currentLesson.quiz && currentLesson.quiz.length > 0 && (
+                <div className="mb-8">
+                  <LessonQuiz questions={currentLesson.quiz} lessonTitle={currentLesson.title} />
                 </div>
               )}
 
