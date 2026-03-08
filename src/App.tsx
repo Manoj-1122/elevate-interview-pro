@@ -20,6 +20,7 @@ const LearningPage = lazy(() => import("./pages/LearningPage"));
 const LearningDetailPage = lazy(() => import("./pages/LearningDetailPage"));
 const LearningContentPage = lazy(() => import("./pages/LearningContentPage"));
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
+const JobRolesPage = lazy(() => import("./pages/JobRolesPage"));
 
 const queryClient = new QueryClient();
 
