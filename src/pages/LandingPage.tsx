@@ -63,50 +63,61 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero */}
-      <section className="relative pt-32 pb-20 px-4 overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img src={aiBg} alt="" className="w-full h-full object-cover opacity-50" />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/20 to-background/60" />
-        </div>
-        <div className="container mx-auto text-center relative z-10 [text-shadow:0_2px_20px_rgba(0,0,0,0.5)]">
-          <motion.div
-            initial="hidden" animate="visible" variants={fadeUp} custom={0}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/20 bg-primary/5 text-primary text-sm font-medium mb-8"
-          >
-            <Sparkles className="h-4 w-4" /> Powered by Advanced AI
-          </motion.div>
+      <section className="hero-gradient pt-32 pb-20 px-4 overflow-hidden">
+        <div className="container mx-auto relative">
+          <div className="flex flex-col lg:flex-row items-center gap-12">
+            {/* Left: Text */}
+            <div className="flex-1 text-center lg:text-left">
+              <motion.div
+                initial="hidden" animate="visible" variants={fadeUp} custom={0}
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/20 bg-primary/5 text-primary text-sm font-medium mb-8"
+              >
+                <Sparkles className="h-4 w-4" /> Powered by Advanced AI
+              </motion.div>
 
-          <motion.h1
-            initial="hidden" animate="visible" variants={fadeUp} custom={1}
-            className="font-display text-5xl md:text-7xl font-bold tracking-tight mb-6 text-foreground"
-          >
-            AI Interview Preparation
-            <br />
-            <span className="gradient-text">& Evaluation System</span>
-          </motion.h1>
+              <motion.h1
+                initial="hidden" animate="visible" variants={fadeUp} custom={1}
+                className="font-display text-5xl md:text-7xl font-bold tracking-tight mb-6 text-foreground"
+              >
+                AI Interview Preparation
+                <br />
+                <span className="gradient-text">& Evaluation System</span>
+              </motion.h1>
 
-          <motion.p
-            initial="hidden" animate="visible" variants={fadeUp} custom={2}
-            className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10"
-          >
-            Practice interviews with AI and get instant, detailed feedback. Master every interview with personalized coaching.
-          </motion.p>
+              <motion.p
+                initial="hidden" animate="visible" variants={fadeUp} custom={2}
+                className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-10"
+              >
+                Practice interviews with AI and get instant, detailed feedback. Master every interview with personalized coaching.
+              </motion.p>
 
-          <motion.div
-            initial="hidden" animate="visible" variants={fadeUp} custom={3}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
-          >
-            <Link to="/setup">
-              <Button variant="hero" size="lg" className="text-base px-8 py-6">
-                Start Interview <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
-            <Link to="/interview">
-              <Button variant="heroOutline" size="lg" className="text-base px-8 py-6">
-                Try Demo
-              </Button>
-            </Link>
-          </motion.div>
+              <motion.div
+                initial="hidden" animate="visible" variants={fadeUp} custom={3}
+                className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+              >
+                <Link to="/setup">
+                  <Button variant="hero" size="lg" className="text-base px-8 py-6">
+                    Start Interview <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+                </Link>
+                <Link to="/interview">
+                  <Button variant="heroOutline" size="lg" className="text-base px-8 py-6">
+                    Try Demo
+                  </Button>
+                </Link>
+              </motion.div>
+            </div>
+
+            {/* Right: Image */}
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] as const }}
+              className="flex-1 hidden lg:block"
+            >
+              <img src={aiBg} alt="AI Interview concept" className="w-full rounded-2xl shadow-2xl glow" />
+            </motion.div>
+          </div>
 
           {/* Floating elements */}
           <motion.div
