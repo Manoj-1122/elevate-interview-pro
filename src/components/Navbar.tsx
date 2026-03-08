@@ -56,10 +56,7 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-50 glass-card border-b">
       <div className="container mx-auto flex items-center justify-between h-16 px-4">
         <Link to="/" className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-lg gradient-bg flex items-center justify-center">
-            <Brain className="h-5 w-5 text-primary-foreground" />
-          </div>
-          <span className="font-display font-bold text-lg text-foreground">InterviewAI</span>
+          <img src={prepzoLogo} alt="Prepzo" className="h-8 w-auto" />
         </Link>
 
         {/* Desktop nav */}
