@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import aiBg from "@/assets/ai-interview-bg.jpg";
 import { Button } from "@/components/ui/button";
 import { Brain, Mic, BarChart3, MessageSquare, Sparkles, Target, TrendingUp, Shield, ArrowRight, Star, CheckCircle2 } from "lucide-react";
 
@@ -62,8 +63,12 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero */}
-      <section className="hero-gradient pt-32 pb-20 px-4 overflow-hidden">
-        <div className="container mx-auto text-center relative">
+      <section className="relative pt-32 pb-20 px-4 overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img src={aiBg} alt="" className="w-full h-full object-cover opacity-20" />
+          <div className="absolute inset-0 hero-gradient opacity-80" />
+        </div>
+        <div className="container mx-auto text-center relative z-10">
           <motion.div
             initial="hidden" animate="visible" variants={fadeUp} custom={0}
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/20 bg-primary/5 text-primary text-sm font-medium mb-8"
