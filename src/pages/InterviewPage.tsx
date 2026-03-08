@@ -2,9 +2,17 @@ import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Brain, Mic, MicOff, Send, Clock, ChevronRight, Loader2 } from "lucide-react";
+import { Brain, Mic, MicOff, Send, Clock, ChevronRight, Loader2, ArrowLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
 
 const questionsByRole: Record<string, Record<string, string[]>> = {
   "Software Developer": {
@@ -122,6 +130,7 @@ export default function InterviewPage() {
   const [isRecording, setIsRecording] = useState(false);
   const [timer, setTimer] = useState(0);
   const [isEvaluating, setIsEvaluating] = useState(false);
+  const [showExitDialog, setShowExitDialog] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
@@ -217,12 +226,23 @@ export default function InterviewPage() {
       {/* Header */}
       <div className="border-b">
         <div className="container mx-auto flex items-center justify-between h-14 px-4">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="h-7 w-7 rounded-lg gradient-bg flex items-center justify-center">
-              <Brain className="h-4 w-4 text-primary-foreground" />
-            </div>
-            <span className="font-display font-bold text-foreground">InterviewAI</span>
-          </Link>
+          <div className="flex items-center gap-3">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowExitDialog(true)}
+              className="gap-1.5"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Exit
+            </Button>
+            <Link to="/" className="flex items-center gap-2">
+              <div className="h-7 w-7 rounded-lg gradient-bg flex items-center justify-center">
+                <Brain className="h-4 w-4 text-primary-foreground" />
+              </div>
+              <span className="font-display font-bold text-foreground">InterviewAI</span>
+            </Link>
+          </div>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Clock className="h-4 w-4" /> {formatTime(timer)}
@@ -321,6 +341,26 @@ export default function InterviewPage() {
           </div>
         </div>
       </div>
+
+      {/* Exit Confirmation Dialog */}
+      <Dialog open={showExitDialog} onOpenChange={setShowExitDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Exit Interview?</DialogTitle>
+            <DialogDescription>
+              Your progress will be lost. Are you sure you want to go back to the dashboard?
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setShowExitDialog(false)}>
+              Continue Interview
+            </Button>
+            <Button variant="destructive" onClick={() => navigate("/dashboard")}>
+              Exit to Dashboard
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
