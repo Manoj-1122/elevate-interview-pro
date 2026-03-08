@@ -2,13 +2,17 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Brain, Briefcase, Code, Database, Palette, Bot, ChevronRight } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Brain, Briefcase, ChevronRight } from "lucide-react";
 
 const roles = [
-  { id: "swe", label: "Software Developer", icon: Code },
-  { id: "ds", label: "Data Scientist", icon: Database },
-  { id: "ai", label: "AI Engineer", icon: Bot },
-  { id: "ux", label: "UX/UI Designer", icon: Palette },
+  { id: "swe", label: "Software Developer" },
+  { id: "ds", label: "Data Scientist" },
+  { id: "ai", label: "AI Engineer" },
+  { id: "ux", label: "UX/UI Designer" },
+  { id: "pm", label: "Product Manager" },
+  { id: "devops", label: "DevOps Engineer" },
+  { id: "qa", label: "QA Engineer" },
 ];
 
 const difficulties = ["Beginner", "Intermediate", "Advanced"];
