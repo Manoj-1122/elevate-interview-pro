@@ -2,9 +2,17 @@ import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Brain, Mic, MicOff, Send, Clock, ChevronRight, Loader2 } from "lucide-react";
+import { Brain, Mic, MicOff, Send, Clock, ChevronRight, Loader2, ArrowLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
 
 const questionsByRole: Record<string, Record<string, string[]>> = {
   "Software Developer": {
