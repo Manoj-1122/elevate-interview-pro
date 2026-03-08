@@ -94,6 +94,36 @@ const learningPaths = [
     skills: ["Python", "Pandas", "NumPy", "Scikit-learn", "TensorFlow", "Data Visualization", "Statistical Analysis", "Feature Engineering", "Model Evaluation", "Neural Networks"],
     detailedDescription: "Dive deep into data science and machine learning. Learn to analyze complex datasets, build predictive models, and apply deep learning techniques using Python and industry-standard libraries.",
   },
+  {
+    id: "cloud-computing",
+    title: "Cloud Computing",
+    subtitle: "AWS, Azure, GCP",
+    courses: 3,
+    description: "Learn cloud infrastructure, deployment, and services on major cloud platforms",
+    outcomes: [
+      "Understand cloud service models",
+      "Deploy applications to cloud",
+      "Manage cloud infrastructure",
+      "Implement cloud security",
+    ],
+    skills: ["AWS", "Azure", "Google Cloud", "Docker", "Kubernetes", "Serverless", "Cloud Storage", "Networking", "IAM", "CI/CD Pipelines"],
+    detailedDescription: "Comprehensive cloud computing program covering major providers (AWS, Azure, GCP). Learn to architect, deploy, and manage scalable cloud applications with industry best practices.",
+  },
+  {
+    id: "cybersecurity",
+    title: "Cybersecurity Essentials",
+    subtitle: "Network Security, Ethical Hacking",
+    courses: 3,
+    description: "Learn cybersecurity fundamentals, ethical hacking, and security best practices",
+    outcomes: [
+      "Understand security threats and defenses",
+      "Perform basic penetration testing",
+      "Implement secure coding practices",
+      "Manage network security",
+    ],
+    skills: ["Network Security", "Ethical Hacking", "Cryptography", "OWASP Top 10", "Firewalls", "IDS/IPS", "Vulnerability Assessment", "Secure Coding", "Incident Response", "Compliance"],
+    detailedDescription: "Build a strong foundation in cybersecurity, covering threat analysis, ethical hacking techniques, network security, and secure coding practices essential for protecting modern applications.",
+  },
 ];
 
 export { learningPaths };
