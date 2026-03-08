@@ -213,7 +213,7 @@ export default function SetupPage() {
                   <Upload className="h-8 w-8 text-muted-foreground" />
                   <div className="text-center">
                     <p className="text-sm font-medium text-foreground">Click to upload your resume</p>
-                    <p className="text-xs text-muted-foreground mt-1">PDF or TXT, max 5MB</p>
+                    <p className="text-xs text-muted-foreground mt-1">PDF, DOCX, or TXT, max 5MB</p>
                   </div>
                 </button>
               ) : (
