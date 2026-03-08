@@ -87,6 +87,12 @@ export default function ProfilePage() {
         bio: (prof as any).bio || "",
         phone: (prof as any).phone || "",
       });
+      setNotifications({
+        notify_new_content: (prof as any).notify_new_content ?? true,
+        notify_interview_reminders: (prof as any).notify_interview_reminders ?? true,
+        notify_progress_updates: (prof as any).notify_progress_updates ?? true,
+        notify_tips_resources: (prof as any).notify_tips_resources ?? false,
+      });
     } else {
       // Create profile if it doesn't exist (for existing users)
       const { data: newProf } = await supabase
