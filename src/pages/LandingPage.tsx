@@ -42,14 +42,15 @@ export default function LandingPage() {
             </div>
             <span className="font-display font-bold text-lg text-foreground">InterviewAI</span>
           </Link>
-          <div className="hidden md:flex items-center gap-8">
-            <a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Features</a>
-            <a href="#how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition-colors">How it Works</a>
-            
-          </div>
           <div className="flex items-center gap-3">
+            <a href="#features">
+              <Button variant="outline" size="sm" className="border-primary/30 text-primary hover:bg-primary/10">Features</Button>
+            </a>
+            <a href="#how-it-works">
+              <Button variant="outline" size="sm" className="border-primary/30 text-primary hover:bg-primary/10">How it Works</Button>
+            </a>
             <Link to="/login">
-              <Button variant="ghost" size="sm">Log in</Button>
+              <Button variant="secondary" size="sm">Log in</Button>
             </Link>
             <Link to="/dashboard">
               <Button variant="hero" size="sm">Get Started</Button>
