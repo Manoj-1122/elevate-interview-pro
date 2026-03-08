@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Brain, ArrowRight, Download, RotateCcw, TrendingUp, MessageSquare, Lightbulb, Shield, AlertTriangle, Star } from "lucide-react";
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer } from "recharts";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 const fallbackSkills = [
   { name: "Content Relevance", score: 75 },
