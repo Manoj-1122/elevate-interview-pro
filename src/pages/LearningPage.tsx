@@ -182,6 +182,19 @@ export default function LearningPage() {
             </motion.div>
           ))}
         </div>
+
+        {/* CTA to Practice */}
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView="visible" viewport={{ once: true }} animate={{ opacity: 1, y: 0 }}
+          className="text-center glass-card rounded-2xl p-10 mt-12"
+        >
+          <h2 className="font-display text-xl font-bold text-foreground mb-2">Done studying?</h2>
+          <p className="text-muted-foreground text-sm mb-6">Put your knowledge to the test with AI-powered practice interviews.</p>
+          <Link to="/setup">
+            <Button variant="hero" size="lg">
+              Go to Practice <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </Link>
+        </motion.div>
       </div>
     </div>
   );

@@ -236,22 +236,9 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Nav */}
-      <nav className="border-b">
-        <div className="container mx-auto flex items-center justify-between h-16 px-4">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg gradient-bg flex items-center justify-center">
-              <Brain className="h-5 w-5 text-primary-foreground" />
-            </div>
-            <span className="font-display font-bold text-lg text-foreground">InterviewAI</span>
-          </Link>
-          <Link to="/dashboard">
-            <Button variant="ghost" size="sm"><ChevronLeft className="h-4 w-4 mr-1" />Dashboard</Button>
-          </Link>
-        </div>
-      </nav>
+      <Navbar />
 
-      <div className="container mx-auto py-8 px-4 max-w-3xl">
+      <div className="container mx-auto py-8 px-4 max-w-3xl pt-24">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <h1 className="font-display text-2xl font-bold text-foreground mb-8">My Profile</h1>
         </motion.div>

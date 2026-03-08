@@ -166,7 +166,7 @@ export default function ResultsPage() {
           </div>
         </motion.div>
 
-        <div className="flex justify-center gap-4">
+        <div className="flex flex-col sm:flex-row justify-center gap-4">
           <Link to="/dashboard">
             <Button variant="hero" size="lg">
               View Dashboard <ArrowRight className="ml-2 h-5 w-5" />
@@ -174,6 +174,11 @@ export default function ResultsPage() {
           </Link>
           <Link to="/setup">
             <Button variant="heroOutline" size="lg">New Interview</Button>
+          </Link>
+          <Link to="/learning">
+            <Button variant="ghost" size="lg">
+              <BookOpen className="h-4 w-4 mr-2" /> Continue Learning
+            </Button>
           </Link>
         </div>
       </div>

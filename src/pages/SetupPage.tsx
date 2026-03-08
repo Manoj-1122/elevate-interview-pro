@@ -163,7 +163,8 @@ export default function SetupPage() {
 
         {/* Type */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="mb-6">
-          <h2 className="font-display font-semibold text-lg text-foreground mb-4">Interview Type</h2>
+          <h2 className="font-display font-semibold text-lg text-foreground mb-2">Interview Type</h2>
+          <p className="text-xs text-muted-foreground mb-4">Choose the type of questions you want to practice.</p>
           <div className="grid gap-3">
             {types.map((t) => (
               <button
