@@ -3,9 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Brain, Briefcase, ChevronRight, Upload, FileText, X, Loader2 } from "lucide-react";
+import { Briefcase, ChevronRight, Upload, FileText, X, Loader2, HelpCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import Navbar from "@/components/Navbar";
 
 const roles = [
   { id: "swe", label: "Software Developer" },
