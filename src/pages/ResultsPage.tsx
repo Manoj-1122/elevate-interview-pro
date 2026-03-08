@@ -1,9 +1,10 @@
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Brain, ArrowRight, Download, RotateCcw, TrendingUp, MessageSquare, Lightbulb, Shield, AlertTriangle, Star } from "lucide-react";
+import { ArrowRight, Download, RotateCcw, TrendingUp, Lightbulb, Star, AlertTriangle, BookOpen } from "lucide-react";
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer } from "recharts";
 import { generateInterviewPDF } from "@/lib/pdf-export";
+import Navbar from "@/components/Navbar";
 
 const fallbackSkills = [
   { name: "Content Relevance", score: 75 },
@@ -58,28 +59,19 @@ export default function ResultsPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <nav className="border-b">
-        <div className="container mx-auto flex items-center justify-between h-16 px-4">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg gradient-bg flex items-center justify-center">
-              <Brain className="h-5 w-5 text-primary-foreground" />
-            </div>
-            <span className="font-display font-bold text-lg text-foreground">InterviewAI</span>
-          </Link>
-          <div className="flex gap-3">
-            <Link to="/setup">
-              <Button variant="heroOutline" size="sm">
-                <RotateCcw className="h-4 w-4 mr-1" /> Retake
-              </Button>
-            </Link>
-            <Button variant="ghost" size="sm" onClick={handleExportPDF}>
-              <Download className="h-4 w-4 mr-1" /> Export
-            </Button>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
 
-      <div className="container mx-auto py-12 px-4 max-w-4xl">
+      <div className="container mx-auto py-12 px-4 max-w-4xl pt-24">
+        <div className="flex justify-end gap-3 mb-6">
+          <Link to="/setup">
+            <Button variant="heroOutline" size="sm">
+              <RotateCcw className="h-4 w-4 mr-1" /> Retake
+            </Button>
+          </Link>
+          <Button variant="ghost" size="sm" onClick={handleExportPDF}>
+            <Download className="h-4 w-4 mr-1" /> Export PDF
+          </Button>
+        </div>
         {/* Overall Score */}
         <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center mb-12">
           <p className="text-muted-foreground text-sm font-medium mb-4 uppercase tracking-wider">Overall Performance</p>
@@ -174,7 +166,7 @@ export default function ResultsPage() {
           </div>
         </motion.div>
 
-        <div className="flex justify-center gap-4">
+        <div className="flex flex-col sm:flex-row justify-center gap-4">
           <Link to="/dashboard">
             <Button variant="hero" size="lg">
               View Dashboard <ArrowRight className="ml-2 h-5 w-5" />
@@ -182,6 +174,11 @@ export default function ResultsPage() {
           </Link>
           <Link to="/setup">
             <Button variant="heroOutline" size="lg">New Interview</Button>
+          </Link>
+          <Link to="/learning">
+            <Button variant="ghost" size="lg">
+              <BookOpen className="h-4 w-4 mr-2" /> Continue Learning
+            </Button>
           </Link>
         </div>
       </div>

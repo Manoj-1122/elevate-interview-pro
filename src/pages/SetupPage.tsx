@@ -3,9 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Brain, Briefcase, ChevronRight, Upload, FileText, X, Loader2 } from "lucide-react";
+import { Briefcase, ChevronRight, Upload, FileText, X, Loader2, HelpCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import Navbar from "@/components/Navbar";
 
 const roles = [
   { id: "swe", label: "Software Developer" },
@@ -110,18 +111,14 @@ export default function SetupPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <nav className="border-b">
-        <div className="container mx-auto flex items-center h-16 px-4">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg gradient-bg flex items-center justify-center">
-              <Brain className="h-5 w-5 text-primary-foreground" />
-            </div>
-            <span className="font-display font-bold text-lg text-foreground">InterviewAI</span>
-          </Link>
-        </div>
-      </nav>
+      <Navbar />
 
-      <div className="container mx-auto py-12 px-4 max-w-3xl">
+      <div className="container mx-auto py-12 px-4 max-w-3xl pt-24">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-2">
+          <p className="text-sm text-muted-foreground">
+            <Link to="/learning" className="hover:text-primary">Resources</Link> / <span className="text-foreground font-medium">Practice Setup</span>
+          </p>
+        </motion.div>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-10">
           <h1 className="font-display text-3xl font-bold text-foreground mb-2">Set Up Your Interview</h1>
           <p className="text-muted-foreground">Configure your interview session to get the most relevant questions.</p>
@@ -129,9 +126,10 @@ export default function SetupPage() {
 
         {/* Role */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mb-10">
-          <h2 className="font-display font-semibold text-lg text-foreground mb-4 flex items-center gap-2">
+          <h2 className="font-display font-semibold text-lg text-foreground mb-2 flex items-center gap-2">
             <Briefcase className="h-5 w-5 text-primary" /> Job Role
           </h2>
+          <p className="text-xs text-muted-foreground mb-4">Select the role you're preparing to interview for.</p>
           <Select value={role} onValueChange={setRole}>
             <SelectTrigger className="w-full glass-card rounded-xl h-12 text-sm">
               <SelectValue placeholder="Select a job role" />
@@ -146,7 +144,8 @@ export default function SetupPage() {
 
         {/* Difficulty */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="mb-10">
-          <h2 className="font-display font-semibold text-lg text-foreground mb-4">Difficulty Level</h2>
+          <h2 className="font-display font-semibold text-lg text-foreground mb-2">Difficulty Level</h2>
+          <p className="text-xs text-muted-foreground mb-4">Beginner for freshers, Intermediate for 1-3 years, Advanced for seniors.</p>
           <div className="flex gap-3">
             {difficulties.map((d) => (
               <button
@@ -164,7 +163,8 @@ export default function SetupPage() {
 
         {/* Type */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="mb-6">
-          <h2 className="font-display font-semibold text-lg text-foreground mb-4">Interview Type</h2>
+          <h2 className="font-display font-semibold text-lg text-foreground mb-2">Interview Type</h2>
+          <p className="text-xs text-muted-foreground mb-4">Choose the type of questions you want to practice.</p>
           <div className="grid gap-3">
             {types.map((t) => (
               <button

@@ -1,8 +1,11 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import aiBg from "@/assets/ai-interview-bg.jpg";
 import { Button } from "@/components/ui/button";
 import { Brain, Mic, BarChart3, MessageSquare, Sparkles, Target, TrendingUp, ArrowRight, CheckCircle2 } from "lucide-react";
+import Navbar from "@/components/Navbar";
+import { supabase } from "@/integrations/supabase/client";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -23,47 +26,32 @@ const features = [
 ];
 
 const steps = [
-  { num: "01", title: "Choose Your Role", desc: "Select from Software Developer, Data Scientist, AI Engineer, and more" },
-  { num: "02", title: "Answer Questions", desc: "Respond to AI-generated interview questions via text or voice" },
-  { num: "03", title: "AI Evaluates", desc: "Our AI analyzes content, communication, confidence, and accuracy" },
-  { num: "04", title: "Get Your Report", desc: "Receive a detailed feedback report with actionable improvements" },
+  { num: "01", title: "Explore Job Roles", desc: "Browse available roles, required skills, and salary ranges" },
+  { num: "02", title: "Learn & Prepare", desc: "Study with curated resources for AI, Data Science, Full Stack & more" },
+  { num: "03", title: "Practice Interviews", desc: "Answer AI-generated questions via text or voice" },
+  { num: "04", title: "Get Your Report", desc: "Receive detailed AI feedback with actionable improvements" },
 ];
 
-
 export default function LandingPage() {
+  const [user, setUser] = useState<any>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => setUser(data.user));
+  }, []);
+
+  const handleGetStarted = () => {
+    navigate(user ? "/dashboard" : "/login");
+  };
+
   return (
     <div className="min-h-screen bg-background">
-      {/* Navbar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 glass-card border-b">
-        <div className="container mx-auto flex items-center justify-between h-16 px-4">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg gradient-bg flex items-center justify-center">
-              <Brain className="h-5 w-5 text-primary-foreground" />
-            </div>
-            <span className="font-display font-bold text-lg text-foreground">InterviewAI</span>
-          </Link>
-          <div className="flex items-center gap-3">
-            <a href="#features">
-              <Button variant="outline" size="sm" className="border-primary/30 text-primary hover:bg-primary/10">Features</Button>
-            </a>
-            <a href="#how-it-works">
-              <Button variant="outline" size="sm" className="border-primary/30 text-primary hover:bg-primary/10">How it Works</Button>
-            </a>
-            <Link to="/login">
-              <Button variant="secondary" size="sm">Log in</Button>
-            </Link>
-            <Link to="/dashboard">
-              <Button variant="hero" size="sm">Get Started</Button>
-            </Link>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Hero */}
       <section className="hero-gradient pt-32 pb-20 px-4 overflow-hidden">
         <div className="container mx-auto relative">
           <div className="flex flex-col lg:flex-row items-center gap-12">
-            {/* Left: Text */}
             <div className="flex-1 text-center lg:text-left">
               <motion.div
                 initial="hidden" animate="visible" variants={fadeUp} custom={0}
@@ -92,20 +80,17 @@ export default function LandingPage() {
                 initial="hidden" animate="visible" variants={fadeUp} custom={3}
                 className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
               >
-                <Link to="/setup">
-                  <Button variant="hero" size="lg" className="text-base px-8 py-6">
-                    Start Interview <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                </Link>
-                <Link to="/interview">
+                <Button variant="hero" size="lg" className="text-base px-8 py-6" onClick={handleGetStarted}>
+                  Start Your Journey <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+                <Link to="/roles">
                   <Button variant="heroOutline" size="lg" className="text-base px-8 py-6">
-                    Try Demo
+                    Explore Job Roles
                   </Button>
                 </Link>
               </motion.div>
             </div>
 
-            {/* Right: Image */}
             <motion.div
               initial={{ opacity: 0, x: 40 }}
               animate={{ opacity: 1, x: 0 }}
@@ -148,6 +133,34 @@ export default function LandingPage() {
               </div>
             </div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* User Journey Path */}
+      <section className="py-16 px-4 bg-muted/30">
+        <div className="container mx-auto text-center">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={0}>
+            <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-3">Your Learning Path</h2>
+            <p className="text-muted-foreground mb-8">Follow this simple journey to ace your interviews</p>
+          </motion.div>
+          <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-0">
+            {[
+              { label: "Job Roles", to: "/roles" },
+              { label: "Resources", to: "/learning" },
+              { label: "Practice", to: "/setup" },
+              { label: "Evaluate", to: "/results" },
+              { label: "Dashboard", to: "/dashboard" },
+            ].map((step, i) => (
+              <div key={step.label} className="flex items-center gap-3">
+                <Link to={step.to}>
+                  <Button variant={i === 0 ? "hero" : "heroOutline"} size="sm" className="rounded-full px-5">
+                    {step.label}
+                  </Button>
+                </Link>
+                {i < 4 && <ArrowRight className="h-4 w-4 text-muted-foreground hidden md:block" />}
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -199,7 +212,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-
       {/* CTA */}
       <section className="py-24 px-4">
         <div className="container mx-auto">
@@ -210,11 +222,11 @@ export default function LandingPage() {
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.1),transparent)] pointer-events-none" />
             <h2 className="font-display text-3xl md:text-4xl font-bold text-primary-foreground mb-4 relative">Ready to Ace Your Next Interview?</h2>
             <p className="text-primary-foreground/80 text-lg max-w-lg mx-auto mb-8 relative">Start practicing today and get AI-powered feedback to boost your confidence and performance.</p>
-            <Link to="/setup" className="relative">
-              <Button variant="heroOutline" size="lg" className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground text-base px-8 py-6">
+            <div className="relative flex justify-center gap-4">
+              <Button variant="heroOutline" size="lg" className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground text-base px-8 py-6" onClick={handleGetStarted}>
                 Get Started Free <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
-            </Link>
+            </div>
           </motion.div>
         </div>
       </section>
