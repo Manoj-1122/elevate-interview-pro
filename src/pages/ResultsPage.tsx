@@ -1,9 +1,10 @@
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Brain, ArrowRight, Download, RotateCcw, TrendingUp, MessageSquare, Lightbulb, Shield, AlertTriangle, Star } from "lucide-react";
+import { ArrowRight, Download, RotateCcw, TrendingUp, Lightbulb, Star, AlertTriangle, BookOpen } from "lucide-react";
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer } from "recharts";
 import { generateInterviewPDF } from "@/lib/pdf-export";
+import Navbar from "@/components/Navbar";
 
 const fallbackSkills = [
   { name: "Content Relevance", score: 75 },
