@@ -32,6 +32,8 @@ interface Interview {
 export default function DashboardPage() {
   const [interviews, setInterviews] = useState<Interview[]>([]);
   const [loading, setLoading] = useState(true);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [displayName, setDisplayName] = useState("");
 
   useEffect(() => {
     const fetchInterviews = async () => {
