@@ -18,7 +18,8 @@ const roles = [
 const difficulties = ["Beginner", "Intermediate", "Advanced"];
 const types = [
   { id: "technical", label: "Technical", desc: "Code & system design questions" },
-  { id: "hr", label: "HR / Resume", desc: "Resume-based behavioral questions" },
+  { id: "hr", label: "HR", desc: "General HR & workplace questions" },
+  { id: "resume", label: "Resume", desc: "Resume-based interview questions" },
   { id: "behavioral", label: "Behavioral", desc: "Situational & mock interview" },
 ];
 
