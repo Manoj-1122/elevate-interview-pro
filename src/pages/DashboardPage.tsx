@@ -78,60 +78,23 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <nav className="border-b">
-        <div className="container mx-auto flex items-center justify-between h-16 px-4">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg gradient-bg flex items-center justify-center">
-              <Brain className="h-5 w-5 text-primary-foreground" />
-            </div>
-            <span className="font-display font-bold text-lg text-foreground">InterviewAI</span>
-          </Link>
-          <div className="flex items-center gap-3">
-            <Link to="/learning">
-              <Button variant="ghost" size="sm">Learning</Button>
-            </Link>
-            <Link to="/setup">
-              <Button variant="hero" size="sm"><Plus className="h-4 w-4 mr-1" /> New Interview</Button>
-            </Link>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button className="rounded-full ring-2 ring-primary/20 hover:ring-primary/40 transition-all">
-                  <Avatar className="h-9 w-9">
-                    <AvatarImage src={avatarUrl || undefined} />
-                    <AvatarFallback className="bg-primary/10 text-primary text-xs font-bold">
-                      {(displayName || "U").slice(0, 2).toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <div className="px-3 py-2">
-                  <p className="text-sm font-medium text-foreground truncate">{displayName}</p>
-                </div>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link to="/profile" className="flex items-center gap-2 cursor-pointer">
-                    <User className="h-4 w-4" /> Profile
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  className="text-destructive focus:text-destructive cursor-pointer"
-                  onClick={async () => { await supabase.auth.signOut(); window.location.href = "/login"; }}
-                >
-                  <LogOut className="h-4 w-4 mr-2" /> Sign Out
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
 
-      <div className="container mx-auto py-8 px-4 max-w-6xl">
+      <div className="container mx-auto py-8 px-4 max-w-6xl pt-24">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <h1 className="font-display text-2xl font-bold text-foreground">Dashboard</h1>
           <p className="text-muted-foreground text-sm">Track your interview preparation progress.</p>
         </motion.div>
+
+        {/* Quick Links */}
+        <div className="flex flex-wrap gap-3 mb-8">
+          <Link to="/setup">
+            <Button variant="hero" size="sm"><Plus className="h-4 w-4 mr-1" /> Start New Practice</Button>
+          </Link>
+          <Link to="/learning">
+            <Button variant="heroOutline" size="sm"><BookOpen className="h-4 w-4 mr-1" /> Continue Learning</Button>
+          </Link>
+        </div>
 
         {/* Stats */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
