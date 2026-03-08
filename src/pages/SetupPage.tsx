@@ -41,9 +41,11 @@ export default function SetupPage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const allowedTypes = ["text/plain", "application/pdf"];
-    if (!allowedTypes.includes(file.type) && !file.name.endsWith(".txt")) {
-      toast.error("Please upload a PDF or TXT file");
+    const allowedExtensions = [".pdf", ".txt", ".docx", ".doc"];
+    const fileName = file.name.toLowerCase();
+    const hasValidExtension = allowedExtensions.some(ext => fileName.endsWith(ext));
+    if (!hasValidExtension) {
+      toast.error("Please upload a PDF, DOCX, or TXT file");
       return;
     }
     if (file.size > 5 * 1024 * 1024) {
