@@ -14,6 +14,7 @@ import { Brain, ArrowLeft, ArrowRight, ChevronLeft, BookOpen, Check, Menu, X } f
 import { learningPaths } from "./LearningPage";
 import { getPathContent, type Lesson } from "@/data/learningContent";
 import { supabase } from "@/integrations/supabase/client";
+import LessonQuiz from "@/components/LessonQuiz";
 
 export default function LearningContentPage() {
   const { id } = useParams<{ id: string }>();
