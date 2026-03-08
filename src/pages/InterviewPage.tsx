@@ -130,6 +130,7 @@ export default function InterviewPage() {
   const [isRecording, setIsRecording] = useState(false);
   const [timer, setTimer] = useState(0);
   const [isEvaluating, setIsEvaluating] = useState(false);
+  const [showExitDialog, setShowExitDialog] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
