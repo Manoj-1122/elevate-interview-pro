@@ -19,6 +19,7 @@ const InterviewDetailPage = lazy(() => import("./pages/InterviewDetailPage"));
 const LearningPage = lazy(() => import("./pages/LearningPage"));
 const LearningDetailPage = lazy(() => import("./pages/LearningDetailPage"));
 const LearningContentPage = lazy(() => import("./pages/LearningContentPage"));
+const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 
 const queryClient = new QueryClient();
 
@@ -43,6 +44,7 @@ const App = () => (
             <Route path="/learning" element={<LearningPage />} />
             <Route path="/learning/:id" element={<LearningDetailPage />} />
             <Route path="/learning/:id/content" element={<LearningContentPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

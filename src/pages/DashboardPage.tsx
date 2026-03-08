@@ -2,7 +2,15 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Brain, Plus, TrendingUp, Target, Clock, Award, BarChart3, Loader2, Eye, Download } from "lucide-react";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
+import { Brain, Plus, TrendingUp, Target, Clock, Award, BarChart3, Loader2, Eye, Download, User, LogOut } from "lucide-react";
 import { generateInterviewPDF } from "@/lib/pdf-export";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, Radar } from "recharts";
 import { supabase } from "@/integrations/supabase/client";
@@ -24,9 +32,19 @@ interface Interview {
 export default function DashboardPage() {
   const [interviews, setInterviews] = useState<Interview[]>([]);
   const [loading, setLoading] = useState(true);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [displayName, setDisplayName] = useState("");
 
   useEffect(() => {
-    const fetchInterviews = async () => {
+    const fetchData = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data: prof } = await supabase.from("profiles").select("avatar_url, display_name").eq("id", user.id).maybeSingle();
+        if (prof) {
+          setAvatarUrl((prof as any).avatar_url);
+          setDisplayName((prof as any).display_name || user.email?.split("@")[0] || "");
+        }
+      }
       const { data } = await supabase
         .from("interviews")
         .select("*")
@@ -35,7 +53,7 @@ export default function DashboardPage() {
       setInterviews((data as unknown as Interview[]) || []);
       setLoading(false);
     };
-    fetchInterviews();
+    fetchData();
   }, []);
 
   const totalInterviews = interviews.length;
@@ -92,6 +110,36 @@ export default function DashboardPage() {
             <Link to="/setup">
               <Button variant="hero" size="sm"><Plus className="h-4 w-4 mr-1" /> New Interview</Button>
             </Link>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="rounded-full ring-2 ring-primary/20 hover:ring-primary/40 transition-all">
+                  <Avatar className="h-9 w-9">
+                    <AvatarImage src={avatarUrl || undefined} />
+                    <AvatarFallback className="bg-primary/10 text-primary text-xs font-bold">
+                      {(displayName || "U").slice(0, 2).toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <div className="px-3 py-2">
+                  <p className="text-sm font-medium text-foreground truncate">{displayName}</p>
+                </div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link to="/profile" className="flex items-center gap-2 cursor-pointer">
+                    <User className="h-4 w-4" /> Profile
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  className="text-destructive focus:text-destructive cursor-pointer"
+                  onClick={async () => { await supabase.auth.signOut(); window.location.href = "/login"; }}
+                >
+                  <LogOut className="h-4 w-4 mr-2" /> Sign Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </nav>
