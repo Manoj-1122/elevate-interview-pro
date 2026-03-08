@@ -18,6 +18,7 @@ const ResultsPage = lazy(() => import("./pages/ResultsPage"));
 const InterviewDetailPage = lazy(() => import("./pages/InterviewDetailPage"));
 const LearningPage = lazy(() => import("./pages/LearningPage"));
 const LearningDetailPage = lazy(() => import("./pages/LearningDetailPage"));
+const LearningContentPage = lazy(() => import("./pages/LearningContentPage"));
 
 const queryClient = new QueryClient();
 
