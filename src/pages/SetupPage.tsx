@@ -26,6 +26,11 @@ export default function SetupPage() {
 
   const canStart = role && difficulty && type;
 
+  const handleStart = () => {
+    const roleLabel = roles.find((r) => r.id === role)?.label || role;
+    navigate(`/interview?role=${encodeURIComponent(roleLabel)}&difficulty=${encodeURIComponent(difficulty)}&type=${encodeURIComponent(type)}`);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <nav className="border-b">
@@ -109,7 +114,7 @@ export default function SetupPage() {
             size="lg"
             className="w-full py-6 text-base"
             disabled={!canStart}
-            onClick={() => navigate("/interview")}
+            onClick={handleStart}
           >
             Start Interview <ChevronRight className="ml-2 h-5 w-5" />
           </Button>
