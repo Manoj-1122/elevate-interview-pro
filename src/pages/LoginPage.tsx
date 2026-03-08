@@ -70,7 +70,7 @@ export default function LoginPage() {
             <Button variant="hero" size="lg" className="w-full py-5">Sign In <ArrowRight className="ml-2 h-4 w-4" /></Button>
           </Link>
 
-          <div className="mt-6 text-center text-sm text-muted-foreground">
+          <div className="mt-6 text-center text-sm text-white/50">
             Don't have an account? <Link to="/signup" className="text-primary font-medium hover:underline">Sign up</Link>
           </div>
         </div>
