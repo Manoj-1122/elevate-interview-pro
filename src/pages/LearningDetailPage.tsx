@@ -88,9 +88,20 @@ export default function LearningDetailPage() {
               <span>Total Courses: {path.courses}</span>
             </div>
           </div>
-          <Link to="/setup">
-            <Button variant="hero" size="lg">Start My Journey</Button>
-          </Link>
+          <div className="flex flex-col items-end gap-3">
+            {totalLessons > 0 && (
+              <div className="w-40">
+                <div className="flex justify-between text-xs text-foreground mb-1">
+                  <span>Progress</span>
+                  <span>{progressPct}%</span>
+                </div>
+                <Progress value={progressPct} className="h-2" />
+              </div>
+            )}
+            <Link to={`/learning/${id}/content`}>
+              <Button variant="hero" size="lg"><Play className="h-4 w-4 mr-2" />Start Learning</Button>
+            </Link>
+          </div>
         </motion.div>
 
         {/* Description + Outcomes */}
