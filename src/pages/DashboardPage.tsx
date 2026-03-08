@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Brain, Plus, TrendingUp, Target, Clock, Award, BarChart3, Loader2 } from "lucide-react";
+import { Brain, Plus, TrendingUp, Target, Clock, Award, BarChart3, Loader2, Eye, Download } from "lucide-react";
+import { generateInterviewPDF } from "@/lib/pdf-export";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, Radar } from "recharts";
 import { supabase } from "@/integrations/supabase/client";
 import { formatDistanceToNow } from "date-fns";
@@ -168,6 +169,12 @@ export default function DashboardPage() {
                       <span className={`text-sm font-semibold ${interview.overall_score >= 80 ? "text-accent" : "text-primary"}`}>
                         {interview.overall_score}/100
                       </span>
+                      <Link to={`/interview/${interview.id}`}>
+                        <Button variant="ghost" size="sm"><Eye className="h-4 w-4" /></Button>
+                      </Link>
+                      <Button variant="ghost" size="sm" onClick={() => generateInterviewPDF(interview as any)}>
+                        <Download className="h-4 w-4" />
+                      </Button>
                     </div>
                   </div>
                 ))}
