@@ -22,6 +22,10 @@ interface Profile {
   bio: string | null;
   phone: string | null;
   avatar_url: string | null;
+  notify_new_content: boolean;
+  notify_interview_reminders: boolean;
+  notify_progress_updates: boolean;
+  notify_tips_resources: boolean;
 }
 
 interface LearningStats {
