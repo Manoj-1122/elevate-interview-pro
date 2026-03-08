@@ -80,7 +80,7 @@ export default function ResultsPage() {
     doc.setFont("helvetica", "bold");
     doc.text("AI Feedback & Suggestions", 14, feedbackY);
 
-    (doc as any).autoTable({
+    autoTable(doc, {
       startY: feedbackY + 5,
       head: [["Type", "Title", "Details"]],
       body: feedback.map((f: { title: string; text: string; type: string }) => [
