@@ -1,36 +1,79 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Brain, Plus, TrendingUp, Target, Clock, Award, BarChart3 } from "lucide-react";
+import { Brain, Plus, TrendingUp, Target, Clock, Award, BarChart3, Loader2 } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, Radar } from "recharts";
+import { supabase } from "@/integrations/supabase/client";
+import { formatDistanceToNow } from "date-fns";
 
-const stats = [
-  { label: "Interviews", value: "12", icon: Target, change: "+3 this week" },
-  { label: "Avg Score", value: "78", icon: Award, change: "+5 from last" },
-  { label: "Practice Hours", value: "8.5", icon: Clock, change: "2.3h this week" },
-  { label: "Improvement", value: "+23%", icon: TrendingUp, change: "Last 30 days" },
-];
-
-const trendData = [
-  { date: "Jan", score: 58 }, { date: "Feb", score: 65 }, { date: "Mar", score: 62 },
-  { date: "Apr", score: 70 }, { date: "May", score: 74 }, { date: "Jun", score: 78 },
-  { date: "Jul", score: 82 },
-];
-
-const skillData = [
-  { subject: "Technical", score: 85 }, { subject: "Communication", score: 70 },
-  { subject: "Problem Solving", score: 80 }, { subject: "Confidence", score: 72 },
-  { subject: "Grammar", score: 88 }, { subject: "Speed", score: 75 },
-];
-
-const recentInterviews = [
-  { role: "Software Developer", type: "Technical", score: 82, date: "2 hours ago" },
-  { role: "AI Engineer", type: "Behavioral", score: 76, date: "Yesterday" },
-  { role: "Data Scientist", type: "Technical", score: 88, date: "3 days ago" },
-  { role: "UX Designer", type: "HR", score: 71, date: "1 week ago" },
-];
+interface Interview {
+  id: string;
+  role: string;
+  type: string;
+  difficulty: string;
+  overall_score: number;
+  performance_label: string;
+  skills: { name: string; score: number }[];
+  feedback: any[];
+  duration_seconds: number;
+  created_at: string;
+}
 
 export default function DashboardPage() {
+  const [interviews, setInterviews] = useState<Interview[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchInterviews = async () => {
+      const { data } = await supabase
+        .from("interviews")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(50);
+      setInterviews((data as unknown as Interview[]) || []);
+      setLoading(false);
+    };
+    fetchInterviews();
+  }, []);
+
+  const totalInterviews = interviews.length;
+  const avgScore = totalInterviews
+    ? Math.round(interviews.reduce((sum, i) => sum + i.overall_score, 0) / totalInterviews)
+    : 0;
+  const totalHours = (interviews.reduce((sum, i) => sum + (i.duration_seconds || 0), 0) / 3600).toFixed(1);
+  const improvement = totalInterviews >= 2
+    ? `${interviews[0].overall_score - interviews[interviews.length - 1].overall_score >= 0 ? "+" : ""}${interviews[0].overall_score - interviews[interviews.length - 1].overall_score}%`
+    : "N/A";
+
+  const stats = [
+    { label: "Interviews", value: String(totalInterviews), icon: Target, change: totalInterviews > 0 ? "Total taken" : "None yet" },
+    { label: "Avg Score", value: String(avgScore), icon: Award, change: `Out of 100` },
+    { label: "Practice Hours", value: totalHours, icon: Clock, change: "Total time" },
+    { label: "Improvement", value: improvement, icon: TrendingUp, change: "First → Latest" },
+  ];
+
+  // Trend data from actual interviews (oldest first)
+  const trendData = [...interviews].reverse().map((i, idx) => ({
+    date: `#${idx + 1}`,
+    score: i.overall_score,
+  }));
+
+  // Aggregate skill data from most recent interview
+  const latestSkills = interviews[0]?.skills || [];
+  const skillData = latestSkills.map((s: { name: string; score: number }) => ({
+    subject: s.name.split(" ")[0],
+    score: s.score,
+  }));
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <nav className="border-b">
@@ -58,13 +101,7 @@ export default function DashboardPage() {
         {/* Stats */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {stats.map((s, i) => (
-            <motion.div
-              key={s.label}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05 }}
-              className="glass-card rounded-xl p-5"
-            >
+            <motion.div key={s.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }} className="glass-card rounded-xl p-5">
               <div className="flex items-center justify-between mb-3">
                 <s.icon className="h-5 w-5 text-primary" />
                 <span className="text-xs text-accent font-medium">{s.change}</span>
@@ -75,62 +112,78 @@ export default function DashboardPage() {
           ))}
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-6 mb-8">
-          {/* Trend chart */}
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="lg:col-span-2 glass-card rounded-2xl p-6">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="font-display font-semibold text-foreground">Performance Trend</h3>
-              <BarChart3 className="h-5 w-5 text-muted-foreground" />
+        {totalInterviews > 0 ? (
+          <>
+            <div className="grid lg:grid-cols-3 gap-6 mb-8">
+              {/* Trend chart */}
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="lg:col-span-2 glass-card rounded-2xl p-6">
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="font-display font-semibold text-foreground">Performance Trend</h3>
+                  <BarChart3 className="h-5 w-5 text-muted-foreground" />
+                </div>
+                <ResponsiveContainer width="100%" height={220}>
+                  <LineChart data={trendData}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                    <XAxis dataKey="date" tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }} axisLine={false} />
+                    <YAxis domain={[0, 100]} tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }} axisLine={false} />
+                    <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8, fontSize: 12 }} />
+                    <Line type="monotone" dataKey="score" stroke="hsl(var(--primary))" strokeWidth={2.5} dot={{ fill: "hsl(var(--primary))", r: 4 }} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </motion.div>
+
+              {/* Skills radar */}
+              {skillData.length > 0 && (
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="glass-card rounded-2xl p-6">
+                  <h3 className="font-display font-semibold text-foreground mb-4">Latest Skills</h3>
+                  <ResponsiveContainer width="100%" height={220}>
+                    <RadarChart data={skillData}>
+                      <PolarGrid stroke="hsl(var(--border))" />
+                      <PolarAngleAxis dataKey="subject" tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} />
+                      <Radar dataKey="score" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.15} strokeWidth={2} />
+                    </RadarChart>
+                  </ResponsiveContainer>
+                </motion.div>
+              )}
             </div>
-            <ResponsiveContainer width="100%" height={220}>
-              <LineChart data={trendData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis dataKey="date" tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }} axisLine={false} />
-                <YAxis domain={[40, 100]} tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }} axisLine={false} />
-                <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8, fontSize: 12 }} />
-                <Line type="monotone" dataKey="score" stroke="hsl(var(--primary))" strokeWidth={2.5} dot={{ fill: "hsl(var(--primary))", r: 4 }} />
-              </LineChart>
-            </ResponsiveContainer>
-          </motion.div>
 
-          {/* Skills radar */}
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="glass-card rounded-2xl p-6">
-            <h3 className="font-display font-semibold text-foreground mb-4">Skill Overview</h3>
-            <ResponsiveContainer width="100%" height={220}>
-              <RadarChart data={skillData}>
-                <PolarGrid stroke="hsl(var(--border))" />
-                <PolarAngleAxis dataKey="subject" tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} />
-                <Radar dataKey="score" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.15} strokeWidth={2} />
-              </RadarChart>
-            </ResponsiveContainer>
-          </motion.div>
-        </div>
-
-        {/* Recent interviews */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="glass-card rounded-2xl p-6">
-          <h3 className="font-display font-semibold text-foreground mb-4">Recent Interviews</h3>
-          <div className="space-y-3">
-            {recentInterviews.map((interview, i) => (
-              <div key={i} className="flex items-center justify-between p-3 rounded-xl hover:bg-muted/50 transition-colors">
-                <div className="flex items-center gap-4">
-                  <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                    <Target className="h-5 w-5 text-primary" />
+            {/* Recent interviews */}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="glass-card rounded-2xl p-6">
+              <h3 className="font-display font-semibold text-foreground mb-4">Recent Interviews</h3>
+              <div className="space-y-3">
+                {interviews.slice(0, 10).map((interview) => (
+                  <div key={interview.id} className="flex items-center justify-between p-3 rounded-xl hover:bg-muted/50 transition-colors">
+                    <div className="flex items-center gap-4">
+                      <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                        <Target className="h-5 w-5 text-primary" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-foreground">{interview.role}</p>
+                        <p className="text-xs text-muted-foreground capitalize">
+                          {interview.type} · {interview.difficulty} · {formatDistanceToNow(new Date(interview.created_at), { addSuffix: true })}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className={`text-sm font-semibold ${interview.overall_score >= 80 ? "text-accent" : "text-primary"}`}>
+                        {interview.overall_score}/100
+                      </span>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-sm font-medium text-foreground">{interview.role}</p>
-                    <p className="text-xs text-muted-foreground">{interview.type} · {interview.date}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className={`text-sm font-semibold ${interview.score >= 80 ? "text-accent" : "text-primary"}`}>{interview.score}/100</span>
-                  <Link to="/results">
-                    <Button variant="ghost" size="sm">View</Button>
-                  </Link>
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </motion.div>
+            </motion.div>
+          </>
+        ) : (
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="glass-card rounded-2xl p-12 text-center">
+            <Target className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+            <h3 className="font-display text-lg font-semibold text-foreground mb-2">No interviews yet</h3>
+            <p className="text-muted-foreground text-sm mb-6">Complete your first AI interview to see your results here.</p>
+            <Link to="/setup">
+              <Button variant="hero">Start Your First Interview</Button>
+            </Link>
+          </motion.div>
+        )}
       </div>
     </div>
   );

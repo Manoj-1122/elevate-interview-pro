@@ -135,6 +135,28 @@ export default function InterviewPage() {
   const formatTime = (s: number) =>
     `${Math.floor(s / 60).toString().padStart(2, "0")}:${(s % 60).toString().padStart(2, "0")}`;
 
+  const saveInterview = async (evaluation: any) => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+      await supabase.from("interviews").insert({
+        user_id: user.id,
+        role,
+        type,
+        difficulty,
+        overall_score: evaluation.overallScore ?? 0,
+        performance_label: evaluation.performanceLabel ?? "N/A",
+        skills: evaluation.skills ?? [],
+        feedback: evaluation.feedback ?? [],
+        questions,
+        answers,
+        duration_seconds: timer,
+      });
+    } catch (e) {
+      console.error("Failed to save interview:", e);
+    }
+  };
+
   const handleEvaluate = async (allAnswers: string[]) => {
     setIsEvaluating(true);
     setMessages((prev) => [
@@ -157,7 +179,7 @@ export default function InterviewPage() {
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
 
-      // Navigate to results with evaluation data
+      await saveInterview(data);
       navigate("/results", { state: { evaluation: data } });
     } catch (e) {
       console.error("Evaluation error:", e);
