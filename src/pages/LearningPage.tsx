@@ -132,27 +132,18 @@ export { learningPaths };
 export default function LearningPage() {
   return (
     <div className="min-h-screen bg-background">
-      <nav className="border-b">
-        <div className="container mx-auto flex items-center justify-between h-16 px-4">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg gradient-bg flex items-center justify-center">
-              <Brain className="h-5 w-5 text-primary-foreground" />
-            </div>
-            <span className="font-display font-bold text-lg text-foreground">InterviewAI</span>
-          </Link>
-          <Link to="/dashboard">
-            <Button variant="ghost" size="sm">Dashboard</Button>
-          </Link>
-        </div>
-      </nav>
+      <Navbar />
 
-      <div className="container mx-auto py-8 px-4 max-w-6xl">
+      <div className="container mx-auto py-8 px-4 max-w-6xl pt-24">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-2">
-          <p className="text-sm text-muted-foreground">Dashboard / <span className="text-foreground font-medium">Learning to Earning</span></p>
+          <p className="text-sm text-muted-foreground">
+            <Link to="/roles" className="hover:text-primary">Job Roles</Link> / <span className="text-foreground font-medium">Resources</span>
+          </p>
         </motion.div>
-        <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="font-display text-2xl font-bold text-primary mb-8">
-          Learning to Earning
-        </motion.h1>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="mb-8">
+          <h1 className="font-display text-2xl font-bold text-primary mb-2">Learning Resources</h1>
+          <p className="text-muted-foreground text-sm">Study these materials to build a strong foundation before practicing interviews.</p>
+        </motion.div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {learningPaths.map((path, i) => (
