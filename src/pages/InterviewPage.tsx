@@ -226,12 +226,23 @@ export default function InterviewPage() {
       {/* Header */}
       <div className="border-b">
         <div className="container mx-auto flex items-center justify-between h-14 px-4">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="h-7 w-7 rounded-lg gradient-bg flex items-center justify-center">
-              <Brain className="h-4 w-4 text-primary-foreground" />
-            </div>
-            <span className="font-display font-bold text-foreground">InterviewAI</span>
-          </Link>
+          <div className="flex items-center gap-3">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowExitDialog(true)}
+              className="gap-1.5"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Exit
+            </Button>
+            <Link to="/" className="flex items-center gap-2">
+              <div className="h-7 w-7 rounded-lg gradient-bg flex items-center justify-center">
+                <Brain className="h-4 w-4 text-primary-foreground" />
+              </div>
+              <span className="font-display font-bold text-foreground">InterviewAI</span>
+            </Link>
+          </div>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Clock className="h-4 w-4" /> {formatTime(timer)}
