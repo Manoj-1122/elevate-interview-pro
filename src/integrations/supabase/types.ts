@@ -14,7 +14,54 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      interviews: {
+        Row: {
+          answers: Json | null
+          created_at: string
+          difficulty: string
+          duration_seconds: number | null
+          feedback: Json | null
+          id: string
+          overall_score: number
+          performance_label: string | null
+          questions: Json | null
+          role: string
+          skills: Json | null
+          type: string
+          user_id: string
+        }
+        Insert: {
+          answers?: Json | null
+          created_at?: string
+          difficulty: string
+          duration_seconds?: number | null
+          feedback?: Json | null
+          id?: string
+          overall_score?: number
+          performance_label?: string | null
+          questions?: Json | null
+          role: string
+          skills?: Json | null
+          type: string
+          user_id: string
+        }
+        Update: {
+          answers?: Json | null
+          created_at?: string
+          difficulty?: string
+          duration_seconds?: number | null
+          feedback?: Json | null
+          id?: string
+          overall_score?: number
+          performance_label?: string | null
+          questions?: Json | null
+          role?: string
+          skills?: Json | null
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
