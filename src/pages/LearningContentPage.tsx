@@ -243,6 +243,13 @@ export default function LearningContentPage() {
                 </div>
               )}
 
+              {/* Quiz Section */}
+              {currentLesson.quiz && currentLesson.quiz.length > 0 && (
+                <div className="mb-8">
+                  <LessonQuiz questions={currentLesson.quiz} lessonTitle={currentLesson.title} />
+                </div>
+              )}
+
               {/* Mark Complete + Navigation */}
               <div className="border-t pt-6 mt-8">
                 <div className="flex items-center gap-3 mb-6">
