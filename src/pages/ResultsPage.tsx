@@ -118,7 +118,7 @@ export default function ResultsPage() {
                 <RotateCcw className="h-4 w-4 mr-1" /> Retake
               </Button>
             </Link>
-            <Button variant="ghost" size="sm">
+            <Button variant="ghost" size="sm" onClick={handleExportPDF}>
               <Download className="h-4 w-4 mr-1" /> Export
             </Button>
           </div>
