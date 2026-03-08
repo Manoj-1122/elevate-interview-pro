@@ -2,13 +2,17 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Brain, Briefcase, Code, Database, Palette, Bot, ChevronRight } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Brain, Briefcase, ChevronRight } from "lucide-react";
 
 const roles = [
-  { id: "swe", label: "Software Developer", icon: Code },
-  { id: "ds", label: "Data Scientist", icon: Database },
-  { id: "ai", label: "AI Engineer", icon: Bot },
-  { id: "ux", label: "UX/UI Designer", icon: Palette },
+  { id: "swe", label: "Software Developer" },
+  { id: "ds", label: "Data Scientist" },
+  { id: "ai", label: "AI Engineer" },
+  { id: "ux", label: "UX/UI Designer" },
+  { id: "pm", label: "Product Manager" },
+  { id: "devops", label: "DevOps Engineer" },
+  { id: "qa", label: "QA Engineer" },
 ];
 
 const difficulties = ["Beginner", "Intermediate", "Advanced"];
@@ -55,20 +59,16 @@ export default function SetupPage() {
           <h2 className="font-display font-semibold text-lg text-foreground mb-4 flex items-center gap-2">
             <Briefcase className="h-5 w-5 text-primary" /> Job Role
           </h2>
-          <div className="grid grid-cols-2 gap-3">
-            {roles.map((r) => (
-              <button
-                key={r.id}
-                onClick={() => setRole(r.id)}
-                className={`glass-card rounded-xl p-4 text-left transition-all duration-200 hover:-translate-y-0.5 ${
-                  role === r.id ? "ring-2 ring-primary shadow-lg" : "hover:shadow-md"
-                }`}
-              >
-                <r.icon className={`h-6 w-6 mb-2 ${role === r.id ? "text-primary" : "text-muted-foreground"}`} />
-                <p className="font-medium text-sm text-foreground">{r.label}</p>
-              </button>
-            ))}
-          </div>
+          <Select value={role} onValueChange={setRole}>
+            <SelectTrigger className="w-full glass-card rounded-xl h-12 text-sm">
+              <SelectValue placeholder="Select a job role" />
+            </SelectTrigger>
+            <SelectContent>
+              {roles.map((r) => (
+                <SelectItem key={r.id} value={r.id}>{r.label}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </motion.div>
 
         {/* Difficulty */}
