@@ -41,7 +41,7 @@ export default function LoginPage() {
           <p className="text-white/60 text-sm mt-1">Sign in to continue your preparation</p>
         </div>
 
-        <div className="glass-card rounded-2xl p-8">
+        <div className="rounded-2xl p-8 bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl">
           <div className="space-y-4 mb-6">
             <div>
               <label className="text-sm font-medium text-foreground mb-1.5 block">Email</label>
