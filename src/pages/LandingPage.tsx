@@ -183,12 +183,16 @@ export default function LandingPage() {
             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">How It Works</h2>
             <p className="text-muted-foreground text-lg max-w-xl mx-auto">Get interview-ready in four simple steps.</p>
           </motion.div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {steps.map((s, i) => (
-              <motion.div key={s.num} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={i} className="text-center">
+              <motion.div
+                key={s.num}
+                initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={i}
+                className="glass-card rounded-2xl p-6 text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
+              >
                 <div className="text-5xl font-display font-bold gradient-text mb-4">{s.num}</div>
                 <h3 className="font-display font-semibold text-lg text-foreground mb-2">{s.title}</h3>
-                <p className="text-muted-foreground text-sm">{s.desc}</p>
+                <p className="text-muted-foreground text-sm leading-relaxed">{s.desc}</p>
               </motion.div>
             ))}
           </div>
