@@ -140,6 +140,33 @@ export default function Navbar() {
               </Button>
             </Link>
           ))}
+          {user && (
+            <>
+              <Link to="/profile" onClick={() => setMobileOpen(false)}>
+                <Button variant="ghost" size="sm" className={`w-full justify-start ${isActive("/profile") ? "text-primary font-semibold" : "text-muted-foreground"}`}>
+                  <User className="h-4 w-4 mr-2" /> Profile
+                </Button>
+              </Link>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="w-full justify-start text-destructive"
+                onClick={async () => { await supabase.auth.signOut(); window.location.href = "/login"; }}
+              >
+                <LogOut className="h-4 w-4 mr-2" /> Sign Out
+              </Button>
+            </>
+          )}
+          {!user && (
+            <div className="flex gap-2 pt-2 border-t border-border">
+              <Link to="/login" onClick={() => setMobileOpen(false)} className="flex-1">
+                <Button variant="secondary" size="sm" className="w-full">Log in</Button>
+              </Link>
+              <Link to="/signup" onClick={() => setMobileOpen(false)} className="flex-1">
+                <Button variant="default" size="sm" className="w-full">Get Started</Button>
+              </Link>
+            </div>
+          )}
         </div>
       )}
     </nav>
