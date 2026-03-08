@@ -144,7 +144,8 @@ export default function SetupPage() {
 
         {/* Difficulty */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="mb-10">
-          <h2 className="font-display font-semibold text-lg text-foreground mb-4">Difficulty Level</h2>
+          <h2 className="font-display font-semibold text-lg text-foreground mb-2">Difficulty Level</h2>
+          <p className="text-xs text-muted-foreground mb-4">Beginner for freshers, Intermediate for 1-3 years, Advanced for seniors.</p>
           <div className="flex gap-3">
             {difficulties.map((d) => (
               <button
