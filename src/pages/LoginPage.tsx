@@ -35,10 +35,10 @@ export default function LoginPage() {
             <div className="h-10 w-10 rounded-xl gradient-bg flex items-center justify-center">
               <Brain className="h-6 w-6 text-primary-foreground" />
             </div>
-            <span className="font-display font-bold text-xl text-foreground">InterviewAI</span>
+            <span className="font-display font-bold text-xl text-white">InterviewAI</span>
           </Link>
-          <h1 className="font-display text-2xl font-bold text-foreground">Welcome back</h1>
-          <p className="text-muted-foreground text-sm mt-1">Sign in to continue your preparation</p>
+          <h1 className="font-display text-2xl font-bold text-white">Welcome back</h1>
+          <p className="text-white/60 text-sm mt-1">Sign in to continue your preparation</p>
         </div>
 
         <div className="glass-card rounded-2xl p-8">
