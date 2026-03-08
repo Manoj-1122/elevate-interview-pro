@@ -28,11 +28,6 @@ const steps = [
   { num: "04", title: "Get Your Report", desc: "Receive a detailed feedback report with actionable improvements" },
 ];
 
-const testimonials = [
-  { name: "Sarah Chen", role: "Software Engineer at Google", avatar: "SC", rating: 5, text: "This platform helped me prepare for my FAANG interviews. The AI feedback was incredibly accurate and actionable." },
-  { name: "Marcus Johnson", role: "Data Scientist at Meta", avatar: "MJ", rating: 5, text: "The speech analysis feature is a game-changer. It helped me improve my communication skills significantly." },
-  { name: "Priya Sharma", role: "Product Manager at Amazon", avatar: "PS", rating: 5, text: "I went from nervous to confident in just two weeks of practice. The detailed analytics really showed my progress." },
-];
 
 export default function LandingPage() {
   return (
