@@ -2,19 +2,12 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
-import { Brain, Plus, TrendingUp, Target, Clock, Award, BarChart3, Loader2, Eye, Download, User, LogOut } from "lucide-react";
+import { Plus, TrendingUp, Target, Clock, Award, BarChart3, Loader2, Eye, Download, BookOpen } from "lucide-react";
 import { generateInterviewPDF } from "@/lib/pdf-export";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, Radar } from "recharts";
 import { supabase } from "@/integrations/supabase/client";
 import { formatDistanceToNow } from "date-fns";
+import Navbar from "@/components/Navbar";
 
 interface Interview {
   id: string;
