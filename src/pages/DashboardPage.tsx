@@ -31,7 +31,7 @@ export default function DashboardPage() {
         .select("*")
         .order("created_at", { ascending: false })
         .limit(50);
-      setInterviews((data as Interview[]) || []);
+      setInterviews((data as unknown as Interview[]) || []);
       setLoading(false);
     };
     fetchInterviews();
