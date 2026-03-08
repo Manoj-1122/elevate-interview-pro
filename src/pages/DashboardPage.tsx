@@ -86,6 +86,9 @@ export default function DashboardPage() {
             <span className="font-display font-bold text-lg text-foreground">InterviewAI</span>
           </Link>
           <div className="flex items-center gap-3">
+            <Link to="/learning">
+              <Button variant="ghost" size="sm">Learning</Button>
+            </Link>
             <Link to="/setup">
               <Button variant="hero" size="sm"><Plus className="h-4 w-4 mr-1" /> New Interview</Button>
             </Link>
