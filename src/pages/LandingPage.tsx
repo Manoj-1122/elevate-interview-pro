@@ -19,6 +19,7 @@ const features = [
   { icon: MessageSquare, title: "Personalized Feedback", desc: "Detailed suggestions to improve your interview performance" },
   { icon: BarChart3, title: "Performance Analytics", desc: "Track progress with visual charts and skill breakdowns" },
   { icon: TrendingUp, title: "Skill Improvement", desc: "Identify weak areas and strengthen them over time" },
+  { icon: Sparkles, title: "Free Resources", desc: "Access curated resources for AI, ML, Data Science, Full Stack, Data Analytics, Cyber Security & more" },
 ];
 
 const steps = [
