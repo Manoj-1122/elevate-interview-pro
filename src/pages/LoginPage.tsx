@@ -10,8 +10,26 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
 
   return (
-    <div className="min-h-screen hero-gradient flex items-center justify-center px-4">
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-md">
+    <div className="min-h-screen relative flex items-center justify-center px-4 overflow-hidden bg-[hsl(180,20%,8%)]">
+      {/* Aurora background layers */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_40%,hsl(170,40%,25%,0.6),transparent)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_30%_30%,hsl(160,50%,20%,0.5),transparent)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_70%_60%,hsl(190,40%,18%,0.4),transparent)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_50%_50%,hsl(175,30%,30%,0.3),transparent)]" />
+        <motion.div
+          animate={{ opacity: [0.3, 0.6, 0.3], scale: [1, 1.1, 1] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute inset-0 bg-[radial-gradient(ellipse_40%_50%_at_40%_45%,hsl(165,45%,22%,0.5),transparent)]"
+        />
+        <motion.div
+          animate={{ opacity: [0.2, 0.5, 0.2], scale: [1.1, 1, 1.1] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_60%_55%,hsl(185,35%,20%,0.4),transparent)]"
+        />
+      </div>
+
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-md relative z-10">
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex items-center gap-2 mb-6">
             <div className="h-10 w-10 rounded-xl gradient-bg flex items-center justify-center">
