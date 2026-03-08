@@ -111,18 +111,14 @@ export default function SetupPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <nav className="border-b">
-        <div className="container mx-auto flex items-center h-16 px-4">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg gradient-bg flex items-center justify-center">
-              <Brain className="h-5 w-5 text-primary-foreground" />
-            </div>
-            <span className="font-display font-bold text-lg text-foreground">InterviewAI</span>
-          </Link>
-        </div>
-      </nav>
+      <Navbar />
 
-      <div className="container mx-auto py-12 px-4 max-w-3xl">
+      <div className="container mx-auto py-12 px-4 max-w-3xl pt-24">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-2">
+          <p className="text-sm text-muted-foreground">
+            <Link to="/learning" className="hover:text-primary">Resources</Link> / <span className="text-foreground font-medium">Practice Setup</span>
+          </p>
+        </motion.div>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-10">
           <h1 className="font-display text-3xl font-bold text-foreground mb-2">Set Up Your Interview</h1>
           <p className="text-muted-foreground">Configure your interview session to get the most relevant questions.</p>
