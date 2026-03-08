@@ -68,7 +68,7 @@ export default function LandingPage() {
           <img src={aiBg} alt="" className="w-full h-full object-cover opacity-20" />
           <div className="absolute inset-0 hero-gradient opacity-80" />
         </div>
-        <div className="container mx-auto text-center relative">
+        <div className="container mx-auto text-center relative z-10">
           <motion.div
             initial="hidden" animate="visible" variants={fadeUp} custom={0}
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/20 bg-primary/5 text-primary text-sm font-medium mb-8"
