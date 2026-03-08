@@ -11,6 +11,31 @@ import { supabase } from "@/integrations/supabase/client";
 export default function LearningDetailPage() {
   const { id } = useParams<{ id: string }>();
   const path = learningPaths.find((p) => p.id === id);
+  const content = getPathContent(id || "");
+  const [completedTopics, setCompletedTopics] = useState<Set<string>>(new Set());
+  const [totalLessons, setTotalLessons] = useState(0);
+
+  useEffect(() => {
+    if (!content) return;
+    const total = content.modules.reduce((acc, m) => acc + m.topics.reduce((a, t) => a + t.lessons.length, 0), 0);
+    setTotalLessons(total);
+
+    supabase.auth.getUser().then(({ data }) => {
+      const uid = data.user?.id;
+      if (!uid || !id) return;
+      supabase
+        .from("learning_progress")
+        .select("topic_id")
+        .eq("user_id", uid)
+        .eq("path_id", id)
+        .eq("completed", true)
+        .then(({ data: progress }) => {
+          if (progress) setCompletedTopics(new Set(progress.map((r: any) => r.topic_id)));
+        });
+    });
+  }, [id, content]);
+
+  const progressPct = totalLessons > 0 ? Math.round((completedTopics.size / totalLessons) * 100) : 0;
 
   if (!path) {
     return (
