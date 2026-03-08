@@ -126,9 +126,10 @@ export default function SetupPage() {
 
         {/* Role */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mb-10">
-          <h2 className="font-display font-semibold text-lg text-foreground mb-4 flex items-center gap-2">
+          <h2 className="font-display font-semibold text-lg text-foreground mb-2 flex items-center gap-2">
             <Briefcase className="h-5 w-5 text-primary" /> Job Role
           </h2>
+          <p className="text-xs text-muted-foreground mb-4">Select the role you're preparing to interview for.</p>
           <Select value={role} onValueChange={setRole}>
             <SelectTrigger className="w-full glass-card rounded-xl h-12 text-sm">
               <SelectValue placeholder="Select a job role" />
