@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Brain, Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
-import loginBg from "@/assets/login-bg.png";
+import loginBg from "@/assets/login-bg.jpg";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
