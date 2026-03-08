@@ -41,9 +41,11 @@ export default function SetupPage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const allowedTypes = ["text/plain", "application/pdf"];
-    if (!allowedTypes.includes(file.type) && !file.name.endsWith(".txt")) {
-      toast.error("Please upload a PDF or TXT file");
+    const allowedExtensions = [".pdf", ".txt", ".docx", ".doc"];
+    const fileName = file.name.toLowerCase();
+    const hasValidExtension = allowedExtensions.some(ext => fileName.endsWith(ext));
+    if (!hasValidExtension) {
+      toast.error("Please upload a PDF, DOCX, or TXT file");
       return;
     }
     if (file.size > 5 * 1024 * 1024) {
@@ -57,12 +59,11 @@ export default function SetupPage() {
       const text = await file.text();
       setResumeText(text);
     } else {
-      // For PDF, read as base64 and send to AI for extraction
+      // For PDF/DOCX, read as base64 and send to AI for extraction
       const reader = new FileReader();
       reader.onload = () => {
         const base64 = (reader.result as string).split(",")[1];
-        // Store base64 temporarily; the edge function will handle parsing
-        setResumeText(`[PDF_BASE64]${base64}`);
+        setResumeText(`[FILE_BASE64]${file.name}|||${base64}`);
       };
       reader.readAsDataURL(file);
     }
@@ -200,7 +201,7 @@ export default function SetupPage() {
               <input
                 ref={fileInputRef}
                 type="file"
-                accept=".pdf,.txt"
+                accept=".pdf,.txt,.docx,.doc"
                 onChange={handleFileChange}
                 className="hidden"
               />
@@ -212,7 +213,7 @@ export default function SetupPage() {
                   <Upload className="h-8 w-8 text-muted-foreground" />
                   <div className="text-center">
                     <p className="text-sm font-medium text-foreground">Click to upload your resume</p>
-                    <p className="text-xs text-muted-foreground mt-1">PDF or TXT, max 5MB</p>
+                    <p className="text-xs text-muted-foreground mt-1">PDF, DOCX, or TXT, max 5MB</p>
                   </div>
                 </button>
               ) : (
