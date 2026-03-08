@@ -99,6 +99,10 @@ export type Database = {
           created_at: string
           display_name: string | null
           id: string
+          notify_interview_reminders: boolean
+          notify_new_content: boolean
+          notify_progress_updates: boolean
+          notify_tips_resources: boolean
           phone: string | null
           updated_at: string
         }
@@ -108,6 +112,10 @@ export type Database = {
           created_at?: string
           display_name?: string | null
           id: string
+          notify_interview_reminders?: boolean
+          notify_new_content?: boolean
+          notify_progress_updates?: boolean
+          notify_tips_resources?: boolean
           phone?: string | null
           updated_at?: string
         }
@@ -117,6 +125,10 @@ export type Database = {
           created_at?: string
           display_name?: string | null
           id?: string
+          notify_interview_reminders?: boolean
+          notify_new_content?: boolean
+          notify_progress_updates?: boolean
+          notify_tips_resources?: boolean
           phone?: string | null
           updated_at?: string
         }

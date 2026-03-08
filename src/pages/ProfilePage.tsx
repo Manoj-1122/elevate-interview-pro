@@ -10,8 +10,9 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import {
   Brain, Camera, Save, Loader2, ChevronLeft, User, BookOpen, Trophy, Clock, Target,
-  KeyRound, Trash2, CheckCircle2
+  KeyRound, Trash2, CheckCircle2, Bell
 } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
@@ -21,6 +22,10 @@ interface Profile {
   bio: string | null;
   phone: string | null;
   avatar_url: string | null;
+  notify_new_content: boolean;
+  notify_interview_reminders: boolean;
+  notify_progress_updates: boolean;
+  notify_tips_resources: boolean;
 }
 
 interface LearningStats {
@@ -50,6 +55,15 @@ export default function ProfilePage() {
   const [newPassword, setNewPassword] = useState("");
   const [changingPassword, setChangingPassword] = useState(false);
 
+  // Notification preferences
+  const [notifications, setNotifications] = useState({
+    notify_new_content: true,
+    notify_interview_reminders: true,
+    notify_progress_updates: true,
+    notify_tips_resources: false,
+  });
+  const [savingNotifications, setSavingNotifications] = useState(false);
+
   useEffect(() => {
     loadProfile();
   }, []);
@@ -72,6 +86,12 @@ export default function ProfilePage() {
         display_name: (prof as any).display_name || "",
         bio: (prof as any).bio || "",
         phone: (prof as any).phone || "",
+      });
+      setNotifications({
+        notify_new_content: (prof as any).notify_new_content ?? true,
+        notify_interview_reminders: (prof as any).notify_interview_reminders ?? true,
+        notify_progress_updates: (prof as any).notify_progress_updates ?? true,
+        notify_tips_resources: (prof as any).notify_tips_resources ?? false,
       });
     } else {
       // Create profile if it doesn't exist (for existing users)
@@ -335,6 +355,67 @@ export default function ProfilePage() {
           {learningStats.pathProgress.length === 0 && (
             <p className="text-sm text-muted-foreground">No learning progress yet. <Link to="/learning" className="text-primary hover:underline">Start learning →</Link></p>
           )}
+        </motion.div>
+
+        {/* Notification Preferences */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.13 }}
+          className="glass-card rounded-2xl p-6 md:p-8 mb-6"
+        >
+          <h3 className="font-display text-lg font-bold text-foreground mb-5 flex items-center gap-2">
+            <Bell className="h-5 w-5 text-primary" /> Notification Preferences
+          </h3>
+          <p className="text-sm text-muted-foreground mb-5">Choose which email notifications you'd like to receive.</p>
+
+          <div className="space-y-4">
+            {[
+              { key: "notify_new_content" as const, label: "New Learning Content", desc: "Get notified when new courses or learning paths are added" },
+              { key: "notify_interview_reminders" as const, label: "Interview Reminders", desc: "Receive reminders to practice and take mock interviews" },
+              { key: "notify_progress_updates" as const, label: "Progress Updates", desc: "Weekly summary of your learning progress and scores" },
+              { key: "notify_tips_resources" as const, label: "Tips & Resources", desc: "Curated tips, articles, and resources to boost your preparation" },
+            ].map((item) => (
+              <div key={item.key} className="flex items-center justify-between py-2">
+                <div>
+                  <p className="text-sm font-medium text-foreground">{item.label}</p>
+                  <p className="text-xs text-muted-foreground">{item.desc}</p>
+                </div>
+                <Switch
+                  checked={notifications[item.key]}
+                  onCheckedChange={(checked) => setNotifications((prev) => ({ ...prev, [item.key]: checked }))}
+                />
+              </div>
+            ))}
+          </div>
+
+          <Separator className="my-5" />
+
+          <Button
+            variant="hero"
+            size="sm"
+            disabled={savingNotifications}
+            onClick={async () => {
+              if (!profile) return;
+              setSavingNotifications(true);
+              const { error } = await supabase
+                .from("profiles")
+                .update({
+                  notify_new_content: notifications.notify_new_content,
+                  notify_interview_reminders: notifications.notify_interview_reminders,
+                  notify_progress_updates: notifications.notify_progress_updates,
+                  notify_tips_resources: notifications.notify_tips_resources,
+                  updated_at: new Date().toISOString(),
+                })
+                .eq("id", profile.id);
+              setSavingNotifications(false);
+              if (error) {
+                toast({ title: "Error", description: "Failed to save preferences.", variant: "destructive" });
+              } else {
+                toast({ title: "Saved", description: "Notification preferences updated." });
+              }
+            }}
+          >
+            {savingNotifications ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : <Save className="h-4 w-4 mr-1" />}
+            Save Preferences
+          </Button>
         </motion.div>
 
         {/* Account Settings */}
