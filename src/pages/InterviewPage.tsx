@@ -341,6 +341,26 @@ export default function InterviewPage() {
           </div>
         </div>
       </div>
+
+      {/* Exit Confirmation Dialog */}
+      <Dialog open={showExitDialog} onOpenChange={setShowExitDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Exit Interview?</DialogTitle>
+            <DialogDescription>
+              Your progress will be lost. Are you sure you want to go back to the dashboard?
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setShowExitDialog(false)}>
+              Continue Interview
+            </Button>
+            <Button variant="destructive" onClick={() => navigate("/dashboard")}>
+              Exit to Dashboard
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
