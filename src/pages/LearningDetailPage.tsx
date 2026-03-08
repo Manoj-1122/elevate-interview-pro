@@ -1,0 +1,116 @@
+import { useParams, Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Brain, Check, ArrowLeft } from "lucide-react";
+import { learningPaths } from "./LearningPage";
+
+export default function LearningDetailPage() {
+  const { id } = useParams<{ id: string }>();
+  const path = learningPaths.find((p) => p.id === id);
+
+  if (!path) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <p className="text-muted-foreground">Path not found.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-background">
+      <nav className="border-b">
+        <div className="container mx-auto flex items-center justify-between h-16 px-4">
+          <Link to="/" className="flex items-center gap-2">
+            <div className="h-8 w-8 rounded-lg gradient-bg flex items-center justify-center">
+              <Brain className="h-5 w-5 text-primary-foreground" />
+            </div>
+            <span className="font-display font-bold text-lg text-foreground">InterviewAI</span>
+          </Link>
+          <Link to="/dashboard">
+            <Button variant="ghost" size="sm">Dashboard</Button>
+          </Link>
+        </div>
+      </nav>
+
+      <div className="container mx-auto py-8 px-4 max-w-5xl">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
+          <p className="text-sm text-muted-foreground mb-4">
+            <Link to="/dashboard" className="hover:text-foreground">Dashboard</Link>
+            {" / "}
+            <Link to="/learning" className="hover:text-foreground">Learning to Earning</Link>
+            {" / "}
+            <span className="text-foreground font-medium">{path.title}</span>
+          </p>
+        </motion.div>
+
+        {/* Hero Banner */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.05 }}
+          className="glass-card rounded-2xl p-8 md:p-12 mb-10 flex flex-col md:flex-row items-center gap-8"
+        >
+          <div className="flex-1">
+            <h1 className="font-display text-2xl md:text-3xl font-bold text-primary mb-4">{path.description}</h1>
+            <p className="text-muted-foreground text-sm mb-5">{path.detailedDescription}</p>
+            <div className="flex items-center gap-4 text-sm text-foreground font-medium">
+              <span>Coding Labs: 0</span>
+              <span className="h-5 w-px bg-border" />
+              <span>Total Courses: {path.courses}</span>
+            </div>
+          </div>
+          <Link to="/setup">
+            <Button variant="hero" size="lg">Start My Journey</Button>
+          </Link>
+        </motion.div>
+
+        {/* Description + Outcomes */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="grid md:grid-cols-2 gap-8 mb-10"
+        >
+          <div>
+            <p className="text-sm text-muted-foreground leading-relaxed">{path.detailedDescription}</p>
+          </div>
+          <div className="space-y-3">
+            {path.outcomes.map((o) => (
+              <div key={o} className="flex items-start gap-3">
+                <Check className="h-5 w-5 text-accent mt-0.5 shrink-0" />
+                <span className="text-sm text-foreground">{o}</span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Skills Covered */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25 }}
+          className="rounded-2xl p-8 md:p-12 mb-10"
+          style={{ background: "var(--gradient-primary)" }}
+        >
+          <h2 className="font-display text-xl font-bold text-primary-foreground mb-8">Skills Covered</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-5">
+            {path.skills.map((skill) => (
+              <div key={skill} className="flex items-center gap-3">
+                <Check className="h-5 w-5 text-primary-foreground/80 shrink-0" />
+                <span className="text-sm text-primary-foreground">{skill}</span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        <div className="text-center">
+          <Link to="/learning">
+            <Button variant="ghost" size="sm">
+              <ArrowLeft className="h-4 w-4 mr-1" /> Back to all paths
+            </Button>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
