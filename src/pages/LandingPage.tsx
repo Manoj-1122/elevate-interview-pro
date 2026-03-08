@@ -65,10 +65,10 @@ export default function LandingPage() {
       {/* Hero */}
       <section className="relative pt-32 pb-20 px-4 overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img src={aiBg} alt="" className="w-full h-full object-cover opacity-20" />
-          <div className="absolute inset-0 hero-gradient opacity-80" />
+          <img src={aiBg} alt="" className="w-full h-full object-cover opacity-80" />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/20 to-background/60" />
         </div>
-        <div className="container mx-auto text-center relative z-10">
+        <div className="container mx-auto text-center relative z-10 [text-shadow:0_2px_20px_rgba(0,0,0,0.5)]">
           <motion.div
             initial="hidden" animate="visible" variants={fadeUp} custom={0}
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/20 bg-primary/5 text-primary text-sm font-medium mb-8"
