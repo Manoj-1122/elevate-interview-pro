@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import aiBg from "@/assets/ai-interview-bg.jpg";
 import { Button } from "@/components/ui/button";
 import { Brain, Mic, BarChart3, MessageSquare, Sparkles, Target, TrendingUp, Shield, ArrowRight, Star, CheckCircle2 } from "lucide-react";
 
