@@ -59,12 +59,11 @@ export default function SetupPage() {
       const text = await file.text();
       setResumeText(text);
     } else {
-      // For PDF, read as base64 and send to AI for extraction
+      // For PDF/DOCX, read as base64 and send to AI for extraction
       const reader = new FileReader();
       reader.onload = () => {
         const base64 = (reader.result as string).split(",")[1];
-        // Store base64 temporarily; the edge function will handle parsing
-        setResumeText(`[PDF_BASE64]${base64}`);
+        setResumeText(`[FILE_BASE64]${file.name}|||${base64}`);
       };
       reader.readAsDataURL(file);
     }
