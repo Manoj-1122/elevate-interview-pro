@@ -10,8 +10,9 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import {
   Brain, Camera, Save, Loader2, ChevronLeft, User, BookOpen, Trophy, Clock, Target,
-  KeyRound, Trash2, CheckCircle2
+  KeyRound, Trash2, CheckCircle2, Bell
 } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
