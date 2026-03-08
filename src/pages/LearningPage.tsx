@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Brain, BookOpen, Check } from "lucide-react";
+import { BookOpen, Check, ArrowRight } from "lucide-react";
+import Navbar from "@/components/Navbar";
 
 const learningPaths = [
   {
