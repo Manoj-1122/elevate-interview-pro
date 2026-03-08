@@ -66,7 +66,7 @@ export default function ResultsPage() {
     doc.setFont("helvetica", "bold");
     doc.text("Skill Breakdown", 14, 50);
 
-    (doc as any).autoTable({
+    autoTable(doc, {
       startY: 55,
       head: [["Skill", "Score"]],
       body: skills.map((s: { name: string; score: number }) => [s.name, `${s.score}%`]),
