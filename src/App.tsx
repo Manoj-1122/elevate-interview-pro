@@ -15,6 +15,7 @@ const DashboardPage = lazy(() => import("./pages/DashboardPage"));
 const SetupPage = lazy(() => import("./pages/SetupPage"));
 const InterviewPage = lazy(() => import("./pages/InterviewPage"));
 const ResultsPage = lazy(() => import("./pages/ResultsPage"));
+const InterviewDetailPage = lazy(() => import("./pages/InterviewDetailPage"));
 
 const queryClient = new QueryClient();
 
