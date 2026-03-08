@@ -59,28 +59,19 @@ export default function ResultsPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <nav className="border-b">
-        <div className="container mx-auto flex items-center justify-between h-16 px-4">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg gradient-bg flex items-center justify-center">
-              <Brain className="h-5 w-5 text-primary-foreground" />
-            </div>
-            <span className="font-display font-bold text-lg text-foreground">InterviewAI</span>
-          </Link>
-          <div className="flex gap-3">
-            <Link to="/setup">
-              <Button variant="heroOutline" size="sm">
-                <RotateCcw className="h-4 w-4 mr-1" /> Retake
-              </Button>
-            </Link>
-            <Button variant="ghost" size="sm" onClick={handleExportPDF}>
-              <Download className="h-4 w-4 mr-1" /> Export
-            </Button>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
 
-      <div className="container mx-auto py-12 px-4 max-w-4xl">
+      <div className="container mx-auto py-12 px-4 max-w-4xl pt-24">
+        <div className="flex justify-end gap-3 mb-6">
+          <Link to="/setup">
+            <Button variant="heroOutline" size="sm">
+              <RotateCcw className="h-4 w-4 mr-1" /> Retake
+            </Button>
+          </Link>
+          <Button variant="ghost" size="sm" onClick={handleExportPDF}>
+            <Download className="h-4 w-4 mr-1" /> Export PDF
+          </Button>
+        </div>
         {/* Overall Score */}
         <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center mb-12">
           <p className="text-muted-foreground text-sm font-medium mb-4 uppercase tracking-wider">Overall Performance</p>
