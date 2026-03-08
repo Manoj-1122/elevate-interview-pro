@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { User, LogOut, Menu, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import prepzoLogo from "@/assets/prepzo-logo-clean.png";
+import prepzoLogo from "@/assets/prepzo-logo-nobg.png";
 
 const navLinks = [
   { to: "/", label: "Home" },
