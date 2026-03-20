@@ -16,10 +16,20 @@ export default function SignupPage() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  const validatePassword = (pwd: string): string | null => {
+    if (pwd.length < 8) return "Password must be at least 8 characters";
+    if (!/[A-Z]/.test(pwd)) return "Password must contain at least one uppercase letter";
+    if (!/[a-z]/.test(pwd)) return "Password must contain at least one lowercase letter";
+    if (!/[0-9]/.test(pwd)) return "Password must contain at least one number";
+    if (!/[@#$&]/.test(pwd)) return "Password must contain at least one special character (@#$&)";
+    return null;
+  };
+
   const handleEmailSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password.length < 6) {
-      toast.error("Password must be at least 6 characters");
+    const pwdError = validatePassword(password);
+    if (pwdError) {
+      toast.error(pwdError);
       return;
     }
     setLoading(true);
@@ -61,7 +71,7 @@ export default function SignupPage() {
             <div className="h-10 w-10 rounded-xl gradient-bg flex items-center justify-center">
               <Brain className="h-6 w-6 text-primary-foreground" />
             </div>
-            <span className="font-display font-bold text-xl text-white">InterviewAI</span>
+          <span className="font-display font-bold text-xl text-white">Prepzo</span>
           </Link>
           <h1 className="font-display text-2xl font-bold text-white">Create your account</h1>
           <p className="text-white/60 text-sm mt-1">Start your interview preparation journey</p>
@@ -93,7 +103,7 @@ export default function SignupPage() {
                 <label className="text-sm font-medium text-white/90 mb-1.5 block">Full Name</label>
                 <div className="relative">
                   <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/40" />
-                  <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="John Doe" required className="w-full h-11 pl-10 pr-4 rounded-xl bg-white/10 border border-white/10 text-sm text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary" />
+                  <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="Enter your full name" required className="w-full h-11 pl-10 pr-4 rounded-xl bg-white/10 border border-white/10 text-sm text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary" />
                 </div>
               </div>
               <div>
@@ -107,7 +117,7 @@ export default function SignupPage() {
                 <label className="text-sm font-medium text-white/90 mb-1.5 block">Password</label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/40" />
-                  <input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Min. 6 characters" required className="w-full h-11 pl-10 pr-10 rounded-xl bg-white/10 border border-white/10 text-sm text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary" />
+                  <input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Uppercase, lowercase, number & @#$&" required className="w-full h-11 pl-10 pr-10 rounded-xl bg-white/10 border border-white/10 text-sm text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary" />
                   <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white">
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
