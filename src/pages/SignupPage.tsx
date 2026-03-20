@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -16,8 +16,15 @@ export default function SignupPage() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) navigate("/dashboard", { replace: true });
+    });
+  }, [navigate]);
+
   const validatePassword = (pwd: string): string | null => {
     if (pwd.length < 8) return "Password must be at least 8 characters";
+    if (pwd.length > 11) return "Password must be at most 11 characters";
     if (!/[A-Z]/.test(pwd)) return "Password must contain at least one uppercase letter";
     if (!/[a-z]/.test(pwd)) return "Password must contain at least one lowercase letter";
     if (!/[0-9]/.test(pwd)) return "Password must contain at least one number";
@@ -117,7 +124,7 @@ export default function SignupPage() {
                 <label className="text-sm font-medium text-white/90 mb-1.5 block">Password</label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/40" />
-                  <input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Uppercase, lowercase, number & @#$&" required className="w-full h-11 pl-10 pr-10 rounded-xl bg-white/10 border border-white/10 text-sm text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary" />
+                  <input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="8-11 chars, Aa1 & @#$&" required minLength={8} maxLength={11} className="w-full h-11 pl-10 pr-10 rounded-xl bg-white/10 border border-white/10 text-sm text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary" />
                   <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white">
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
