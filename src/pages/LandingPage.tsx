@@ -238,9 +238,9 @@ export default function LandingPage() {
             <div className="h-7 w-7 rounded-lg gradient-bg flex items-center justify-center">
               <Brain className="h-4 w-4 text-primary-foreground" />
             </div>
-            <span className="font-display font-bold text-foreground">InterviewAI</span>
+            <span className="font-display font-bold text-foreground">Prepzo</span>
           </div>
-          <p className="text-sm text-muted-foreground">© 2026 InterviewAI. All rights reserved.</p>
+          <p className="text-sm text-muted-foreground">© 2026 Prepzo. All rights reserved.</p>
           <div className="flex gap-6">
             <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Privacy</a>
             <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Terms</a>

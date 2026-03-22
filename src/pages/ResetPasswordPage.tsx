@@ -57,7 +57,7 @@ export default function ResetPasswordPage() {
             <div className="h-10 w-10 rounded-xl gradient-bg flex items-center justify-center">
               <Brain className="h-6 w-6 text-primary-foreground" />
             </div>
-            <span className="font-display font-bold text-xl text-white">InterviewAI</span>
+            <span className="font-display font-bold text-xl text-white">Prepzo</span>
           </Link>
           <h1 className="font-display text-2xl font-bold text-white">Set new password</h1>
           <p className="text-white/60 text-sm mt-1">Enter your new password below</p>
