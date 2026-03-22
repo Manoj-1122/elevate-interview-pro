@@ -111,7 +111,7 @@ export default function LearningContentPage() {
               <div className="h-7 w-7 rounded-lg gradient-bg flex items-center justify-center">
                 <Brain className="h-4 w-4 text-primary-foreground" />
               </div>
-              <span className="font-display font-bold text-sm text-foreground hidden sm:inline">InterviewAI</span>
+              <span className="font-display font-bold text-sm text-foreground hidden sm:inline">Prepzo</span>
             </Link>
             <span className="text-muted-foreground text-xs">/</span>
             <Link to={`/learning/${id}`} className="text-xs text-muted-foreground hover:text-foreground truncate max-w-[150px]">

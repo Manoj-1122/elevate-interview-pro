@@ -68,7 +68,7 @@ export default function InterviewDetailPage() {
             <div className="h-8 w-8 rounded-lg gradient-bg flex items-center justify-center">
               <Brain className="h-5 w-5 text-primary-foreground" />
             </div>
-            <span className="font-display font-bold text-lg text-foreground">InterviewAI</span>
+            <span className="font-display font-bold text-lg text-foreground">Prepzo</span>
           </Link>
           <div className="flex gap-3">
             <Link to="/dashboard">

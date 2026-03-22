@@ -17,7 +17,7 @@ export function generateInterviewPDF(data: InterviewData) {
 
   doc.setFontSize(22);
   doc.setFont("helvetica", "bold");
-  doc.text("InterviewAI - Performance Report", pageWidth / 2, 20, { align: "center" });
+  doc.text("Prepzo - Performance Report", pageWidth / 2, 20, { align: "center" });
 
   doc.setFontSize(14);
   doc.setFont("helvetica", "normal");

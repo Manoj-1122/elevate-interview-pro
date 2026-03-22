@@ -240,7 +240,7 @@ export default function InterviewPage() {
               <div className="h-7 w-7 rounded-lg gradient-bg flex items-center justify-center">
                 <Brain className="h-4 w-4 text-primary-foreground" />
               </div>
-              <span className="font-display font-bold text-foreground">InterviewAI</span>
+              <span className="font-display font-bold text-foreground">Prepzo</span>
             </Link>
           </div>
           <div className="flex items-center gap-4">
